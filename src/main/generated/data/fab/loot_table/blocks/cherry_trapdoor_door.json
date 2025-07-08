@@ -1,0 +1,52 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "fab:cherry_trapdoor_door",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "static": "false"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "fab:cherry_trapdoor_door"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "fab:cherry_trapdoor_door",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "static": "true"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "block": "fab:cherry_trapdoor_door",
+              "function": "minecraft:copy_state",
+              "properties": [
+                "static"
+              ]
+            }
+          ],
+          "name": "fab:cherry_trapdoor_door"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

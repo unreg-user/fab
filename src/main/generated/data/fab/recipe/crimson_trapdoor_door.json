@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "minecraft:crimson_door"
+    },
+    {
+      "item": "minecraft:crimson_trapdoor"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "fab:crimson_trapdoor_door"
+  }
+}

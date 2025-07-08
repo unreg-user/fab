@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "fab:piston_comp_knot"
+        }
+      ]
+    }
+  ],
+  "functions": [],
+  "random_sequence": "fab:block/piston_comp_knot"
+}

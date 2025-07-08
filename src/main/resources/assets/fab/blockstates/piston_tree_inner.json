@@ -1,0 +1,29 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "fab:block/piston_in",
+      "x": 180
+    },
+    "facing=down": {
+      "model": "fab:block/piston_in"
+    },
+    "facing=south": {
+      "model": "fab:block/piston_in",
+      "x": 90
+    },
+    "facing=north": {
+      "model": "fab:block/piston_in",
+      "x": -90
+    },
+    "facing=east": {
+      "model": "fab:block/piston_in",
+      "x": 90,
+      "y": -90
+    },
+    "facing=west": {
+      "model": "fab:block/piston_in",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

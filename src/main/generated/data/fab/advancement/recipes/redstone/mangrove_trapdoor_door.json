@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mangrove_trapdoor_door": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fab:mangrove_trapdoor_door"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fab:mangrove_trapdoor_door"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_mangrove_trapdoor_door"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fab:mangrove_trapdoor_door"
+    ]
+  }
+}

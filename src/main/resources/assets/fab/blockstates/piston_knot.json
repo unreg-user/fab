@@ -1,0 +1,52 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "fab:block/piston_knot_block"
+      }
+    },
+    {
+      "when": {"do0": "true"},
+      "apply": {
+        "model": "fab:block/piston_knot",
+        "x": 90,
+        "y": -90
+      }
+    },
+    {
+      "when": {"do1": "true"},
+      "apply": {
+        "model": "fab:block/piston_knot",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {"do2": "true"},
+      "apply": {
+        "model": "fab:block/piston_knot",
+        "x": 180
+      }
+    },
+    {
+      "when": {"do3": "true"},
+      "apply": {
+        "model": "fab:block/piston_knot"
+      }
+    },
+    {
+      "when": {"do4": "true"},
+      "apply": {
+        "model": "fab:block/piston_knot",
+        "x": 90
+      }
+    },
+    {
+      "when": {"do5": "true"},
+      "apply": {
+        "model": "fab:block/piston_knot",
+        "x": -90
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+        "#": {
+            "item": "minecraft:redstone"
+        },
+        "P": {
+            "item": "fab:piston_comp_knot"
+        }
+    },
+    "pattern": [
+        " # ",
+        "#P#",
+        " # "
+    ],
+    "result": {
+        "count": 1,
+        "id": "fab:piston_sapling"
+    }
+}

@@ -1,0 +1,124 @@
+{
+  "variants": {
+    "facing=east,half=bottom,hinge=left,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_left"
+    },
+    "facing=east,half=bottom,hinge=left,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_left_open",
+      "y": 90
+    },
+    "facing=east,half=bottom,hinge=right,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_right"
+    },
+    "facing=east,half=bottom,hinge=right,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_right_open",
+      "y": 270
+    },
+    "facing=east,half=top,hinge=left,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_top_left"
+    },
+    "facing=east,half=top,hinge=left,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_top_left_open",
+      "y": 90
+    },
+    "facing=east,half=top,hinge=right,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_top_right"
+    },
+    "facing=east,half=top,hinge=right,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_top_right_open",
+      "y": 270
+    },
+    "facing=north,half=bottom,hinge=left,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_left",
+      "y": 270
+    },
+    "facing=north,half=bottom,hinge=left,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_left_open"
+    },
+    "facing=north,half=bottom,hinge=right,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_right",
+      "y": 270
+    },
+    "facing=north,half=bottom,hinge=right,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_right_open",
+      "y": 180
+    },
+    "facing=north,half=top,hinge=left,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_top_left",
+      "y": 270
+    },
+    "facing=north,half=top,hinge=left,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_top_left_open"
+    },
+    "facing=north,half=top,hinge=right,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_top_right",
+      "y": 270
+    },
+    "facing=north,half=top,hinge=right,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_top_right_open",
+      "y": 180
+    },
+    "facing=south,half=bottom,hinge=left,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_left",
+      "y": 90
+    },
+    "facing=south,half=bottom,hinge=left,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_left_open",
+      "y": 180
+    },
+    "facing=south,half=bottom,hinge=right,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_right",
+      "y": 90
+    },
+    "facing=south,half=bottom,hinge=right,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_right_open"
+    },
+    "facing=south,half=top,hinge=left,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_top_left",
+      "y": 90
+    },
+    "facing=south,half=top,hinge=left,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_top_left_open",
+      "y": 180
+    },
+    "facing=south,half=top,hinge=right,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_top_right",
+      "y": 90
+    },
+    "facing=south,half=top,hinge=right,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_top_right_open"
+    },
+    "facing=west,half=bottom,hinge=left,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_left",
+      "y": 180
+    },
+    "facing=west,half=bottom,hinge=left,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_left_open",
+      "y": 270
+    },
+    "facing=west,half=bottom,hinge=right,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_right",
+      "y": 180
+    },
+    "facing=west,half=bottom,hinge=right,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_bottom_right_open",
+      "y": 90
+    },
+    "facing=west,half=top,hinge=left,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_top_left",
+      "y": 180
+    },
+    "facing=west,half=top,hinge=left,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_top_left_open",
+      "y": 270
+    },
+    "facing=west,half=top,hinge=right,open=false,trap=false": {
+      "model": "minecraft:block/spruce_door_top_right",
+      "y": 180
+    },
+    "facing=west,half=top,hinge=right,open=true,trap=false": {
+      "model": "minecraft:block/spruce_door_top_right_open",
+      "y": 90
+    }
+  }
+}

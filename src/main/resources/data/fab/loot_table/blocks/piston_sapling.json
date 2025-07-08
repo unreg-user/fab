@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "fab:piston_sapling",
+          "properties": {
+            "start": "false"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "fab:piston_sapling"
+        }
+      ]
+    }
+  ],
+  "functions": [],
+  "random_sequence": "minecraft:block/piston_sapling"
+}

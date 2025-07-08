@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "facing=up,powered=false": {
+      "model": "fab:block/stick_detector_d"
+    },
+    "facing=down,powered=false": {
+      "model": "fab:block/stick_detector_d",
+      "x": 180
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "fab",
+	"version": "${version}",
+	"name": "fab",
+	"description": "This is a mod...",
+	"authors": [
+		"UnregUser"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/fab/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"wta.Fab"
+		],
+		"fabric-datagen": [
+			"wta.FabDataGenerator"
+		],
+		"client": [
+			"wta.Fab"
+		]
+	},
+	"mixins": [
+		"fab.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

@@ -1,0 +1,9 @@
+{
+  "type": "fab:b_stone",
+  "ingredient": {
+    "id": "minecraft:stone"
+  },
+  "result": {
+    "id": "minecraft:smooth_stone"
+  }
+}

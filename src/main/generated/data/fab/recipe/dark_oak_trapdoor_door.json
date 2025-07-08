@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "minecraft:dark_oak_door"
+    },
+    {
+      "item": "minecraft:dark_oak_trapdoor"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "fab:dark_oak_trapdoor_door"
+  }
+}

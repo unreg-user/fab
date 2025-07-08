@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "fab:piston_knot_get",
+          "functions": [
+            {
+              "function": "minecraft:copy_state",
+              "block": "fab:piston_knot_get",
+              "properties": [
+                "do0",
+                "do1",
+                "do2",
+                "do3",
+                "do4",
+                "do5"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "functions": [],
+  "random_sequence": "fab:block/piston_knot_get"
+}

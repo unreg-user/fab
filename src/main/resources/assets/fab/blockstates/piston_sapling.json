@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "start=false,facing=down": {
+      "model": "minecraft:block/piston",
+      "x": 90
+    },
+    "start=false,facing=east": {
+      "model": "minecraft:block/piston",
+      "y": 90
+    },
+    "start=false,facing=north": {
+      "model": "minecraft:block/piston"
+    },
+    "start=false,facing=south": {
+      "model": "minecraft:block/piston",
+      "y": 180
+    },
+    "start=false,facing=up": {
+      "model": "minecraft:block/piston",
+      "x": 270
+    },
+    "start=false,facing=west": {
+      "model": "minecraft:block/piston",
+      "y": 270
+    },
+    "start=true,facing=east": {
+      "model": "fab:block/piston_sapling_started",
+      "x": 90,
+      "y": 90
+    },
+    "start=true,facing=west": {
+      "model": "fab:block/piston_sapling_started",
+      "x": 90,
+      "y": -90
+    },
+    "start=true,facing=up": {
+      "model": "fab:block/piston_sapling_started"
+    },
+    "start=true,facing=down": {
+      "model": "fab:block/piston_sapling_started",
+      "x": 180
+    },
+    "start=true,facing=south": {
+      "model": "fab:block/piston_sapling_started",
+      "x": -90
+    },
+    "start=true,facing=north": {
+      "model": "fab:block/piston_sapling_started",
+      "x": 90
+    }
+  }
+}

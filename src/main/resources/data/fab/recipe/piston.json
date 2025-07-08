@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "fab:piston_flower"
+        },
+        {
+            "item": "fab:piston_comp_knot"
+        }
+    ],
+    "result": {
+        "id": "minecraft:piston",
+        "count": 2
+    }
+}

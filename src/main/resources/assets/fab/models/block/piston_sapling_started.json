@@ -1,0 +1,34 @@
+{
+  "textures": {
+    "bottom": "block/piston_bottom",
+    "side": "block/piston_side",
+    "inside": "block/piston_inner",
+    "inner": "block/stone",
+    "particle": "block/piston_side"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 12, 16],
+      "faces": {
+        "north": {"uv": [0, 4, 16, 16], "texture": "#side", "cullface": "north"},
+        "east": {"uv": [0, 4, 16, 16], "texture": "#side", "cullface": "east"},
+        "south": {"uv": [0, 4, 16, 16], "texture": "#side", "cullface": "south"},
+        "west": {"uv": [0, 4, 16, 16], "texture": "#side", "cullface": "west"},
+        "up": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#inside"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#bottom", "cullface": "down"}
+      }
+    },
+    {
+      "from": [6, 12, 6],
+      "to": [10, 16, 10],
+      "faces": {
+        "north": {"uv": [12, 0, 16, 4], "rotation": 270, "texture": "#side"},
+        "east": {"uv": [12, 0, 16, 4], "rotation": 270, "texture": "#side"},
+        "south": {"uv": [12, 0, 16, 4], "rotation": 270, "texture": "#side"},
+        "west": {"uv": [12, 0, 16, 4], "rotation": 270, "texture": "#side"},
+        "up": {"texture": "#inner", "cullface": "up"}
+      }
+    }
+  ]
+}

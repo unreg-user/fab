@@ -1,0 +1,154 @@
+/*/for (int i = 0; i < 6; i++) {
+            if (boolMap[i]){
+                BlockPos posI=Fun.getBlockByF(pos, Fun.dirs.get(i));
+                BlockState stateI=world.getBlockState(posI);
+                Block blockI=stateI.getBlock();
+                if (BlocksInit.pistonBlocksRotate.contains(blockI)){
+                    Direction rotateI=stateI.get(Properties.FACING);
+                    if (Fun.dirs.get(i)==rotateI.getOpposite()){
+                        return true;
+                    }
+                }else if (blockI==BlocksInit.pistonKnot){
+                    Boolean[] boolMapI=getBool(stateI);
+                    if (boolMapI[Fun.getOppositeDir.get(i)]){ //короче связка
+                        return true;
+                    }
+                }else if (BlocksInit.pistonBlocks.contains(blockI)){
+                    return true;
+                }
+            }
+        }/*/
+        {{
+                /*/put(Direction.UP, Block.createCuboidShape(0, 0, 0, 16, 12, 16));
+                put(Direction.DOWN, Block.createCuboidShape(0, 4, 0, 16, 16, 16));
+                put(Direction.SOUTH, Block.createCuboidShape(0, 0, 0, 16, 16, 12));
+                put(Direction.NORTH, Block.createCuboidShape(0, 0, 4, 16, 16, 16));
+                put(Direction.EAST, Block.createCuboidShape(0, 0, 0, 12, 16, 16));
+                put(Direction.WEST, Block.createCuboidShape(4, 0, 0, 16, 16, 16));/*/
+            }}
+            /**
+             * <b>info about blocks:</b>
+             * <ul>
+             *     <li>knot0 is 4</li>
+             *     <li>knot1 is 1</li>
+             *     <li>knot2 is 2 (true, true, false, false)</li>
+             *     <li>knot3 is 2 (true, false, true, false)</li>
+             *     <li>knot4 is 3</li>
+             * </ul>
+             */
+             /*/pistonKnot0=Registry.register(
+                             Registries.BLOCK,
+                             Identifier.of(MODID, "piston_knot0"),
+                             new pistonKnot0Class(
+                                     AbstractBlock.Settings.create()
+                             )
+                     );
+
+                     pistonKnot1=Registry.register(
+                             Registries.BLOCK,
+                             Identifier.of(MODID, "piston_knot1"),
+                             new pistonKnot1Class(
+                                     AbstractBlock.Settings.create()
+                             )
+                     );
+
+                     pistonKnot2=Registry.register(
+                             Registries.BLOCK,
+                             Identifier.of(MODID, "piston_knot2"),
+                             new pistonKnot2Class(
+                                     AbstractBlock.Settings.create()
+                             )
+                     );/*/
+                     @Override
+                         protected List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+                             System.out.println("drop!");
+                             ItemStack ret=new ItemStack(this, 1);
+                             /*/NbtCompound nbt2 = (NbtCompound)
+                                     BlockState.CODEC
+                                             .encodeStart(NbtOps.INSTANCE, state)
+                                             .result()
+                                             .orElse(null);/*/
+                             /*/Optional<NbtCompound> nbt2 = BlockState.CODEC
+                                     .encodeStart(NbtOps.INSTANCE, state)
+                                     .result()
+                                     .flatMap(nbtE -> Optional.of((NbtCompound) nbtE));
+                             BlockStateComponent nbt=DataComponentTypes.BLOCK_STATE
+                                     .getCodec()
+                                     ;/*/
+                             BlockStateComponent nbt=new BlockStateComponent(
+                                     state.getEntries().entrySet().stream()
+                                     .collect(java.util.stream.Collectors.toMap(
+                                             entry -> entry.getKey().getName(),
+                                             entry -> entry.getValue().toString())
+                                     )
+                             );
+                             ret.set(DataComponentTypes.BLOCK_STATE, nbt);
+                             return List.of(ret);
+                         }
+                         /*/*stack.damage(1, world, player,
+                                             item -> {
+                                                 // Предмет сломан → уменьшаем стек
+                                                 stack.decrement(1);
+
+                                                 // Анимация поломки
+                                                 if (player != null) {
+                                                     player.sendEquipmentBreakStatus(useItem, hand2);
+                                                 }
+                                             });/*/
+                                             /*/spruceTrapdoorDoor=Registry.register(
+                                                             Registries.BLOCK,
+                                                             Identifier.of(MODID, "spruce_trapdoor_door"),
+                                                             new trapdoorDoorClass(BlockSetType.SPRUCE, pistonSETTINGS)
+                                                     );
+                                                     spruceTrapdoorDoorI=Registry.register(
+                                                             Registries.ITEM,
+                                                             Identifier.of(MODID, "spruce_trapdoor_door"),
+                                                             new BlockItem(spruceTrapdoorDoor,
+                                                                     new Item.Settings()
+                                                             )
+                                                     );
+
+                                                     birchTrapdoorDoor=Registry.register(
+                                                             Registries.BLOCK,
+                                                             Identifier.of(MODID, "birch_trapdoor_door"),
+                                                             new trapdoorDoorClass(BlockSetType.BIRCH, pistonSETTINGS)
+                                                     );
+                                                     birchTrapdoorDoorI=Registry.register(
+                                                             Registries.ITEM,
+                                                             Identifier.of(MODID, "birch_trapdoor_door"),
+                                                             new BlockItem(birchTrapdoorDoor,
+                                                                     new Item.Settings()
+                                                             )
+                                                     );
+
+                                                     jungleTrapdoorDoor=Registry.register(
+                                                             Registries.BLOCK,
+                                                             Identifier.of(MODID, "jungle_trapdoor_door"),
+                                                             new trapdoorDoorClass(BlockSetType.JUNGLE, pistonSETTINGS)
+                                                     );
+                                                     jungleTrapdoorDoorI=Registry.register(
+                                                             Registries.ITEM,
+                                                             Identifier.of(MODID, "jungle_trapdoor_door"),
+                                                             new BlockItem(jungleTrapdoorDoor,
+                                                                     new Item.Settings()
+                                                             )
+                                                     );/*/
+
+    //public static Block spruceTrapdoorDoor;
+    //public static Item spruceTrapdoorDoorI;
+    //public static Block birchTrapdoorDoor;
+    //public static Item birchTrapdoorDoorI;
+    //public static Block jungleTrapdoorDoor;
+    //public static Item jungleTrapdoorDoorI;
+    //public static Block bambooTrapdoorDoor;
+    //public static Item bambooTrapdoorDoorI;
+
+            /*/trapdoorDoorsI.add(
+                    Registry.register(
+                            Registries.ITEM,
+                            Identifier.of(MODID, name),
+                            new BlockItem(trapdoorDoors.getLast(),
+                                    new Item.Settings()
+                            )
+                    )
+            );/*/
