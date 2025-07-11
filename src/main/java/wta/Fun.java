@@ -1,6 +1,5 @@
 package wta;
 
-import it.unimi.dsi.fastutil.doubles.DoubleList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.BlockState;
@@ -27,7 +26,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 

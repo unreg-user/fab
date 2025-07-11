@@ -2,6 +2,7 @@ package wta.blocks;
 
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 
 public class PropertiesMod {
@@ -10,6 +11,7 @@ public class PropertiesMod {
     public static BooleanProperty STATIC=BooleanProperty.of("static");
     public static BooleanProperty TRAP=BooleanProperty.of("trap");
     public static BooleanProperty IN_TREE=BooleanProperty.of("in_tree");
+    public static IntProperty STICK_POWER=IntProperty.of("stick_power", 0, 2);
     public static class NBT_DO {
         public static BooleanProperty do0=BooleanProperty.of("do0");
         public static BooleanProperty do1=BooleanProperty.of("do1");

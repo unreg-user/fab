@@ -1,14 +1,19 @@
 package wta.blocks;
 
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.minecraft.block.*;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.DebugStickItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
@@ -230,12 +235,22 @@ public class BlocksInit{
                 )
         );
         for (String type : Fun.doorTrapdoorToSound.keySet()){
+            Fun.testP(0);
             String name=type+"_trapdoor_door";
             trapdoorDoors.add(
                     Registry.register(
                             Registries.BLOCK,
                             Identifier.of(MODID, name),
                             new trapdoorDoorClass(Fun.doorTrapdoorToSound.get(type), AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).strength(3.0F).nonOpaque().allowsSpawning(Blocks::never).burnable())
+                    )
+            );
+            trapdoorDoorsI.add(
+                    Registry.register(
+                            Registries.ITEM,
+                            Identifier.of(MODID, name),
+                            new BlockItem(trapdoorDoors.getLast(),
+                                    new Item.Settings()
+                            )
                     )
             );
             trapdoorDoorsAtHash.put(type, trapdoorDoors.getLast());
@@ -280,6 +295,9 @@ public class BlocksInit{
                 Identifier.of(MODID, "stick_detector"),
                 new StickDetectorClass(
                         AbstractBlock.Settings.create()
+                                .sounds(BlockSoundGroup.GRASS)
+                                .nonOpaque()
+                                .allowsSpawning(Blocks::never)
                 )
         );
         stickDetectorI=Registry.register(

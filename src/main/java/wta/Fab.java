@@ -11,13 +11,17 @@ import wta.items.ItemsInit;
 import wta.recipe_types.RecipeInit;
 
 /**
+ * ...ANY:
  * B (or often nothing) - block<br>
- * BE - blockEntity<br>
+ * BE — blockEntity<br>
  * E — entity<br>
  * RT — recipe type<br>
  * I — item (or forI)<br>
  * RT — recipe type<br>
  * RTS — RT serializer<br>
+ * -----<br>
+ * any...:
+ * vn — vanilla
  * -----<br>
  * other:<br>
  * dir — direction<br>

@@ -3,7 +3,6 @@ package wta.gui.Handled;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import wta.blocks.blockEntitiesModClasses.BrewingStonecutterTableEClass;

@@ -1,7 +1,7 @@
 {
   "parent": "fab:block/template_stick_detector",
   "textures": {
-    "redstone": "fab:block/element_stick_detector_redstone_e",
+    "redstone": "fab:block/element_stick_detector_redstone_ee",
     "wood": "block/birch_planks",
     "stick": "fab:block/stick_block"
   }

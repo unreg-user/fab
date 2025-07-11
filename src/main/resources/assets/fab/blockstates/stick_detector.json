@@ -1,11 +1,79 @@
 {
   "variants": {
-    "facing=up,powered=false": {
+    "stick_power=0,facing=east": {
+      "model": "fab:block/stick_detector_d",
+      "x": 90,
+      "y": 90
+    },
+    "stick_power=0,facing=west": {
+      "model": "fab:block/stick_detector_d",
+      "x": 90,
+      "y": -90
+    },
+    "stick_power=0,facing=up": {
       "model": "fab:block/stick_detector_d"
     },
-    "facing=down,powered=false": {
+    "stick_power=0,facing=down": {
       "model": "fab:block/stick_detector_d",
       "x": 180
+    },
+    "stick_power=0,facing=south": {
+      "model": "fab:block/stick_detector_d",
+      "x": -90
+    },
+    "stick_power=0,facing=north": {
+      "model": "fab:block/stick_detector_d",
+      "x": 90
+    },
+    "stick_power=1,facing=east": {
+      "model": "fab:block/stick_detector_e",
+      "x": 90,
+      "y": 90
+    },
+    "stick_power=1,facing=west": {
+      "model": "fab:block/stick_detector_e",
+      "x": 90,
+      "y": -90
+    },
+    "stick_power=1,facing=up": {
+      "model": "fab:block/stick_detector_e"
+    },
+    "stick_power=1,facing=down": {
+      "model": "fab:block/stick_detector_e",
+      "x": 180
+    },
+    "stick_power=1,facing=south": {
+      "model": "fab:block/stick_detector_e",
+      "x": -90
+    },
+    "stick_power=1,facing=north": {
+      "model": "fab:block/stick_detector_e",
+      "x": 90
+    },
+    "stick_power=2,facing=east": {
+      "model": "fab:block/stick_detector_ee",
+      "x": 90,
+      "y": 90
+    },
+    "stick_power=2,facing=west": {
+      "model": "fab:block/stick_detector_ee",
+      "x": 90,
+      "y": -90
+    },
+    "stick_power=2,facing=up": {
+      "model": "fab:block/stick_detector_ee"
+    },
+    "stick_power=2,facing=down": {
+      "model": "fab:block/stick_detector_ee",
+      "x": 180
+    },
+    "stick_power=2,facing=south": {
+      "model": "fab:block/stick_detector_ee",
+      "x": -90
+    },
+    "stick_power=2,facing=north": {
+      "model": "fab:block/stick_detector_ee",
+      "x": 90
     }
   }
 }

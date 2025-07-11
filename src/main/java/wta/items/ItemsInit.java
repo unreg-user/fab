@@ -14,6 +14,7 @@ public class ItemsInit {
     public static Item shWheatI;
     public static Item shBreadI;
     public static Item bowDripstoneI;
+    public static Item vnStickI;
 
     public static Item[] inMI;
     public static void init(){
@@ -44,6 +45,8 @@ public class ItemsInit {
                 shBreadI,
                 bowDripstoneI
         };
+
+
         AllInit.inMI.add(inMI);
     }
 }
