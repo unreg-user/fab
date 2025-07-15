@@ -34,7 +34,7 @@ import wta.blocks.PropertiesMod;
 
 import java.util.HashMap;
 
-public class trapdoorDoorClass extends Block{
+public class TrapdoorDoorClass extends Block{
     private static BooleanProperty OPEN=Properties.OPEN;
     private static EnumProperty<BlockHalf> HALF=Properties.BLOCK_HALF;
     private static BooleanProperty TRAP= PropertiesMod.TRAP;
@@ -42,7 +42,7 @@ public class trapdoorDoorClass extends Block{
     private static BooleanProperty STATIC=PropertiesMod.STATIC;
     public static HashMap<Direction, VoxelShape> HITBOXES;
     private BlockSetType sound_type;
-    public trapdoorDoorClass(BlockSetType type, Settings settings) {
+    public TrapdoorDoorClass(BlockSetType type, Settings settings) {
         super(settings);
         this.setDefaultState((this.stateManager.getDefaultState())
                 .with(H_ROTATE, Direction.NORTH)
@@ -207,7 +207,7 @@ public class trapdoorDoorClass extends Block{
     @Override
     protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         if (!state.get(TRAP)) {
-            if (!(neighborState.getBlock() instanceof trapdoorDoorClass)) {
+            if (!(neighborState.getBlock() instanceof TrapdoorDoorClass)) {
                 if (!canStateAtDoor(state, world, pos)) {
                     return convToTrapdoor(state);
                 }

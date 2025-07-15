@@ -27,18 +27,18 @@ import wta.blocks.BlocksInit;
 
 import java.util.HashMap;
 
-public class shSeedsClass extends PlantBlock implements Fertilizable {
-    public static final MapCodec<shSeedsClass> CODEC=createCodec(shSeedsClass::new);
+public class ShSeedsClass extends PlantBlock implements Fertilizable {
+    public static final MapCodec<ShSeedsClass> CODEC=createCodec(ShSeedsClass::new);
     public static final int MAX_AGE=2;
     public static final IntProperty AGE=Properties.AGE_2;
     private static final HashMap<Direction, VoxelShape[]> AGE_TO_SHAPE;
     private static DirectionProperty ROTATE=Properties.FACING;
 
-    public MapCodec<? extends shSeedsClass> getCodec() {
+    public MapCodec<? extends ShSeedsClass> getCodec() {
         return CODEC;
     }
 
-    public shSeedsClass(AbstractBlock.Settings settings) {
+    public ShSeedsClass(AbstractBlock.Settings settings) {
         super(settings);
         this.setDefaultState((BlockState)((BlockState)this.stateManager.getDefaultState()).with(this.getAgeProperty(), 0).with(ROTATE, Direction.UP));
     }
@@ -102,7 +102,7 @@ public class shSeedsClass extends PlantBlock implements Fertilizable {
     }
 
     protected int getGrowthAmount(World world) {
-        return MathHelper.nextInt(world.random, 2, 5);
+        return MathHelper.nextInt(world.random, 1, 2);
     }
 
     @Override

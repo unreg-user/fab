@@ -82,3 +82,11 @@ publishing {
 		// retrieving dependencies.
 	}
 }
+
+tasks.named("runClient") {
+	jvmArgs '-noverify', '-Dfabric.api.loader.hotswap.enabled=true'
+}
+
+tasks.named("runServer") {
+	jvmArgs '-noverify', '-Dfabric.api.loader.hotswap.enabled=true'
+}

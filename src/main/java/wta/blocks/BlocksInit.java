@@ -11,9 +11,7 @@ import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.DebugStickItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
@@ -74,44 +72,50 @@ public class BlocksInit{
         usbb=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "up_sweet_berry_bush"),
-                new upBushClass(
+                new UpBushClass(
                         AbstractBlock.Settings.create()
                                 .mapColor(MapColor.DARK_GREEN)
-                                .ticksRandomly().noCollision()
+                                .ticksRandomly()
+                                .noCollision()
                                 .sounds(BlockSoundGroup.SWEET_BERRY_BUSH)
                                 .pistonBehavior(PistonBehavior.DESTROY)
-                                .luminance(state -> state.get(upBushClass.AGE)==3 ? 10 : 0)
-                                ));
+                                .luminance(state -> state.get(UpBushClass.AGE)==3 ? 10 : 0)
+                )
+        );
         usbbI=Registry.register(
                 Registries.ITEM,
                 Identifier.of(MODID, "up_sweet_berry_bush"),
-                new BlockItem(usbb, new Item.Settings().food(new FoodComponent.Builder().nutrition(5).saturationModifier(0.25f).snack().build())));
+                new BlockItem(usbb, new Item.Settings().food(new FoodComponent.Builder().nutrition(4).saturationModifier(0.25f).snack().build()))
+        );
 
         shSeeds=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "sh_seeds"),
-                new shSeedsClass(
+                new ShSeedsClass(
                         AbstractBlock.Settings.create()
                                 .mapColor(MapColor.DARK_GREEN)
                                 .noCollision()
                                 .ticksRandomly()
                                 .breakInstantly()
                                 .sounds(BlockSoundGroup.CROP)
-                                .pistonBehavior(PistonBehavior.DESTROY))
-                );
+                                .pistonBehavior(PistonBehavior.DESTROY)
+                )
+        );
         shSeedsI=Registry.register(
                 Registries.ITEM,
                 Identifier.of(MODID, "sh_seeds"),
                 new BlockItem(shSeeds, new Item.Settings())
         );
+
         allGrass=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "all_grass"),
-                new Block(
+                new AllGrassClass(
                         AbstractBlock.Settings.create()
                                 .mapColor(MapColor.GREEN)
                                 .strength(0.5F)
                                 .sounds(BlockSoundGroup.GRAVEL)
+                                .ticksRandomly()
                 )
         );
         allGrassI=Registry.register(
@@ -234,14 +238,14 @@ public class BlocksInit{
                         )
                 )
         );
+
         for (String type : Fun.doorTrapdoorToSound.keySet()){
-            Fun.testP(0);
             String name=type+"_trapdoor_door";
             trapdoorDoors.add(
                     Registry.register(
                             Registries.BLOCK,
                             Identifier.of(MODID, name),
-                            new trapdoorDoorClass(Fun.doorTrapdoorToSound.get(type), AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).strength(3.0F).nonOpaque().allowsSpawning(Blocks::never).burnable())
+                            new TrapdoorDoorClass(Fun.doorTrapdoorToSound.get(type), AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).strength(3.0F).nonOpaque().allowsSpawning(Blocks::never).burnable())
                     )
             );
             trapdoorDoorsI.add(
@@ -255,6 +259,7 @@ public class BlocksInit{
             );
             trapdoorDoorsAtHash.put(type, trapdoorDoors.getLast());
         }
+
         pointedDripstoneTable=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "pointed_dripstone_table"),
@@ -348,6 +353,7 @@ public class BlocksInit{
                 usbb,
                 shSeeds
         );
+
         for (Block block : trapdoorDoors){
             BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), block);
         }

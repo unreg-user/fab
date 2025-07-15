@@ -1,5 +1,6 @@
 package wta;
 
+import com.mojang.datafixers.types.templates.Tag;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.BlockState;
@@ -15,6 +16,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -28,6 +32,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
+
+import static wta.Fab.MODID;
 
 public class Fun {
     /*/public static Boolean[] toBoolMap(Direction[] trues){
@@ -668,6 +674,10 @@ public class Fun {
 
     public static void testP(){
         testP(null);
+    }
+
+    private static <T> TagKey<T> tagMod(RegistryKey<Registry<T>> reg, String id){
+        return TagKey.of(reg, Identifier.of(MODID, id));
     }
 
     public static final String MC="minecraft";
