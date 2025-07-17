@@ -60,9 +60,9 @@ public class BlocksInit{
     public static AbstractBlock.Settings pistonSETTINGS;
     public static AbstractBlock.Settings pistonRandomlySETTINGS;
 
-    public static List<Block> pistonBlocksForSet;
+    /*/public static List<Block> pistonBlocksForSet;
     public static List<Block> pistonBlocks;
-    public static List<Block> pistonBlocksRotate;
+    public static List<Block> pistonBlocksRotate;/*/
     public static ArrayList<Block> trapdoorDoors=new ArrayList<>();
     public static HashMap<String, Block> trapdoorDoorsAtHash=new HashMap<>();
     public static ArrayList<Item> trapdoorDoorsI=new ArrayList<>();
@@ -137,7 +137,7 @@ public class BlocksInit{
         pistonSapling=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "piston_sapling"),
-                new pistonTreeSaplingClass(pistonRandomlySETTINGS)
+                new PistonTreeSaplingClass(pistonRandomlySETTINGS)
         );
         pistonSaplingI=Registry.register(
                 Registries.ITEM,
@@ -148,31 +148,31 @@ public class BlocksInit{
         pistonUp=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "piston_tree_up"),
-                new pistonUpClass(pistonRandomlySETTINGS)
+                new PistonUpClass(pistonRandomlySETTINGS)
         );
 
         pistonIn=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "piston_tree_inner"),
-                new pistonInClass(pistonSETTINGS)
+                new PistonInClass(pistonSETTINGS)
         );
 
         pistonUpStoped=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "piston_tree_up_stoped"),
-                new pistonUpStopedClass(pistonSETTINGS)
+                new PistonUpStopedClass(pistonSETTINGS)
         );
 
         pistonKnot=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "piston_knot"),
-                new pistonKnotClass(pistonSETTINGS)
+                new PistonKnotClass(pistonSETTINGS)
         );
 
         pistonCompKnot=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "piston_comp_knot"),
-                new pistonFlowerClass(pistonSETTINGS)
+                new PistonFlowerClass(pistonSETTINGS)
         );
         pistonCompKnotI=Registry.register(
                 Registries.ITEM,
@@ -189,7 +189,7 @@ public class BlocksInit{
         pistonFlower=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "piston_flower"),
-                new pistonFlowerClass(pistonSETTINGS)
+                new PistonFlowerClass(pistonSETTINGS)
         );
         pistonFlowerI=Registry.register(
                 Registries.ITEM,
@@ -206,7 +206,7 @@ public class BlocksInit{
         pistonKnotGet=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "piston_knot_get"),
-                new pistonKnotGetClass(pistonSETTINGS)
+                new PistonKnotGetClass(pistonSETTINGS)
         );
         pistonKnotGetI=Registry.register(
                 Registries.ITEM,
@@ -224,7 +224,7 @@ public class BlocksInit{
         pistonKnotGetStripped=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "piston_knot_get_stripped"),
-                new pistonKnotGetStrippedClass(pistonSETTINGS)
+                new PistonKnotGetStrippedClass(pistonSETTINGS)
         );
         pistonKnotGetStrippedI=Registry.register(
                 Registries.ITEM,
@@ -330,7 +330,7 @@ public class BlocksInit{
         inMI.addAll(trapdoorDoorsI);
         AllInit.inMI.add(inMI.toArray(new Item[0]));
 
-        pistonBlocksRotate=List.of(
+        /*/pistonBlocksRotate=List.of(
                 pistonUp,
                 pistonIn,
                 pistonSapling,
@@ -346,7 +346,7 @@ public class BlocksInit{
         );
         pistonBlocks=new ArrayList<>(pistonBlocksForSet){{
             add(pistonSapling);
-        }};
+        }};/*/
     }
     public static void clientInit(){
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),

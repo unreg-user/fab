@@ -90,3 +90,7 @@ tasks.named("runClient") {
 tasks.named("runServer") {
 	jvmArgs '-noverify', '-Dfabric.api.loader.hotswap.enabled=true'
 }
+
+loom {
+	accessWidenerPath = file("src/main/resources/fab.accessWidener")
+}

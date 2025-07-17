@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class pistonKnotGetStrippedClass extends pistonKnotClass{
-    public pistonKnotGetStrippedClass(Settings settings) {
+public class PistonKnotGetStrippedClass extends PistonKnotClass {
+    public PistonKnotGetStrippedClass(Settings settings) {
         super(settings);
     }
 
@@ -34,22 +34,22 @@ public class pistonKnotGetStrippedClass extends pistonKnotClass{
         Item useItem=stack.getItem();
         EquipmentSlot hand2 = hand==Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
         if (useItem== Items.SHEARS) {
-            if (!Arrays.equals(pistonFun.knots.getBool(state), pistonFun.knots.allFalse)) {
-                world.setBlockState(pos, pistonFun.knots.getBlockState(BlocksInit.pistonKnotGetStripped, pistonFun.knots.allFalse), 3);
+            if (!Arrays.equals(PistonFun.Knots.getBool(state), PistonFun.Knots.allFalse)) {
+                world.setBlockState(pos, PistonFun.Knots.getBlockState(BlocksInit.pistonKnotGetStripped, PistonFun.Knots.allFalse), 3);
                 stack.damage(1, player, hand2);
                 return ItemActionResult.CONSUME;
             }else{
                 return ItemActionResult.FAIL;
             }
         }else if (useItem==Items.BONE_MEAL){
-            ArrayList<Boolean> boolMap=new ArrayList<>(List.of(pistonFun.knots.getBool(state)));
+            ArrayList<Boolean> boolMap=new ArrayList<>(List.of(PistonFun.Knots.getBool(state)));
             int fbool=(int) boolMap.stream().filter(e -> e==false).count();
             if (fbool!=0){
                 boolMap.set(
                         Fun.getIndexIndex(boolMap, false, world.getRandom().nextInt(fbool)),
                         true
                 );
-                world.setBlockState(pos, pistonFun.knots.getBlockState(BlocksInit.pistonKnotGetStripped, boolMap.toArray(Boolean[]::new)));
+                world.setBlockState(pos, PistonFun.Knots.getBlockState(BlocksInit.pistonKnotGetStripped, boolMap.toArray(Boolean[]::new)));
                 stack.decrementUnlessCreative(1, player);
                 return ItemActionResult.CONSUME;
             }else{

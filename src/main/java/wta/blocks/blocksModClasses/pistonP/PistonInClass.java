@@ -12,11 +12,12 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldView;
 import wta.Fun;
-import wta.blocks.BlocksInit;
 
 import java.util.HashMap;
 
-public class pistonInClass extends PistonTreeBlock {
+import static wta.TagsMod.BlockTagsMod.pistonBlocks;
+
+public class PistonInClass extends PistonTreeBlock {
     private static DirectionProperty ROTATE=Properties.FACING;
     public static HashMap<Direction, VoxelShape> HITBOXES=new HashMap<>(){{
         put(Direction.UP, Block.createCuboidShape(6, 0, 6, 10, 16, 10));
@@ -28,7 +29,7 @@ public class pistonInClass extends PistonTreeBlock {
 
     }};
 
-    public pistonInClass(Settings settings) {
+    public PistonInClass(Settings settings) {
         super(settings);
     }
 
@@ -51,7 +52,7 @@ public class pistonInClass extends PistonTreeBlock {
         };
         for (BlockPos posI : pos1){
             BlockState stateI=world.getBlockState(posI);
-            if (!BlocksInit.pistonBlocks.contains(stateI.getBlock())){
+            if (!stateI.isIn(pistonBlocks)){
                 return false;
             }
         }

@@ -9,13 +9,13 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldView;
 import wta.Fun;
-import wta.blocks.BlocksInit;
 
+import static wta.TagsMod.BlockTagsMod.pistonBlocks;
 import static wta.blocks.PropertiesMod.NBT_DO;
 
-public class pistonKnotClass extends PistonTreeBlock {
+public class PistonKnotClass extends PistonTreeBlock {
 
-    public pistonKnotClass(Settings settings) {
+    public PistonKnotClass(Settings settings) {
         super(settings);
         this.setDefaultState((this.stateManager.getDefaultState())
                 .with(NBT_DO.do0, true)
@@ -50,8 +50,8 @@ public class pistonKnotClass extends PistonTreeBlock {
         );
     }
 
-    public static BlockState getBlockState(Boolean[] boolMap){
-        return BlocksInit.pistonKnot.getDefaultState()
+    public BlockState getBlockState(Boolean[] boolMap){
+        return this.getDefaultState()
                 .with(NBT_DO.do0, boolMap[0])
                 .with(NBT_DO.do1, boolMap[1])
                 .with(NBT_DO.do2, boolMap[2])
@@ -60,7 +60,7 @@ public class pistonKnotClass extends PistonTreeBlock {
                 .with(NBT_DO.do5, boolMap[5]);
     }
 
-    protected static Boolean[] getBool(BlockState state){
+    public static Boolean[] getBool(BlockState state){
         Fun.BoolMap boolMap=new Fun.BoolMap(false);
         if (state.get(NBT_DO.do0)) boolMap.set(0);
         if (state.get(NBT_DO.do1)) boolMap.set(1);
@@ -71,6 +71,18 @@ public class pistonKnotClass extends PistonTreeBlock {
         return boolMap.get();
     }
 
+    public static BlockState setBlockState(BlockState state, int pos, boolean bool){
+        return switch (pos){
+            case 0 -> state.with(NBT_DO.do0, bool);
+            case 1 -> state.with(NBT_DO.do1, bool);
+            case 2 -> state.with(NBT_DO.do2, bool);
+            case 3 -> state.with(NBT_DO.do3, bool);
+            case 4 -> state.with(NBT_DO.do4, bool);
+            case 5 -> state.with(NBT_DO.do5, bool);
+            default -> state;
+        };
+    }
+
     @Override
     protected boolean canStateAt(BlockState state, WorldView world, BlockPos pos) {
         Boolean[] boolMap=getBool(state);
@@ -78,8 +90,7 @@ public class pistonKnotClass extends PistonTreeBlock {
             if (boolMap[i]){
                 BlockPos posI=Fun.getBlockByF(pos, Fun.dirs.get(i));
                 BlockState stateI=world.getBlockState(posI);
-                Block blockI=stateI.getBlock();
-                if (!BlocksInit.pistonBlocks.contains(blockI)) {
+                if (!stateI.isIn(pistonBlocks)) {
                     return false;
                 }
             }

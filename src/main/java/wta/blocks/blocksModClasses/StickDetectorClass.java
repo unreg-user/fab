@@ -31,10 +31,11 @@ import org.jetbrains.annotations.Nullable;
 import wta.Fun;
 import wta.blocks.PropertiesMod;
 import wta.blocks.blocksModClasses.classes.RotateBlockDrop;
+import wta.blocks.interfaces.StickUsed;
 
 import java.util.HashMap;
 
-public class StickDetectorClass extends RotateBlockDrop {
+public class StickDetectorClass extends RotateBlockDrop implements StickUsed {
     public static final MapCodec<StickDetectorClass> CODEC=createCodec(StickDetectorClass::new);
     private static final IntProperty POWER=PropertiesMod.STICK_POWER;
     private static final HashMap<Direction, VoxelShape> HITBPXES;
@@ -61,7 +62,6 @@ public class StickDetectorClass extends RotateBlockDrop {
             updateNeighbors(world, pos, state);
             world.scheduleBlockTick(pos, this, stopTicks);
             playStick(world, player, pos);
-            player.swingHand(hand);
             return ItemActionResult.SUCCESS;
         }
         return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
@@ -191,5 +191,10 @@ public class StickDetectorClass extends RotateBlockDrop {
                 Block.createCuboidShape(0, 0, 14, 16, 3, 16)
         );
         HITBPXES=Fun.VoxelShapeR.rotateMap(Direction.UP, hitbox);
+    }
+
+    @Override
+    public boolean useAnimation() {
+        return true;
     }
 }

@@ -15,8 +15,8 @@ import java.util.concurrent.CompletableFuture;
 import static wta.Fab.MODID;
 import static wta.Fun.MC;
 
-public class recipeGen extends FabricRecipeProvider {
-    public recipeGen(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+public class RecipeGen extends FabricRecipeProvider {
+    public RecipeGen(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(output, registriesFuture);
     }
 

@@ -6,8 +6,8 @@ import wta.Fun;
 
 import static wta.blocks.PropertiesMod.NBT_DO;
 
-public class pistonFun {
-    public static class knots{
+public class PistonFun {
+    public static class Knots {
         public static BlockState getBlockState(Block block, Boolean[] boolMap){
             return block.getDefaultState()
                     .with(NBT_DO.do0, boolMap[0])
@@ -27,6 +27,7 @@ public class pistonFun {
             if (state.get(NBT_DO.do5)) boolMap.set(5);
             return boolMap.get();
         }
+
         public static Boolean[] allFalse={false, false, false, false, false, false};
         public static Boolean[] allTrue={true, true, true, true, true, true};
     }

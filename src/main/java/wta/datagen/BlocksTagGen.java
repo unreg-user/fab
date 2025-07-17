@@ -11,8 +11,8 @@ import java.util.concurrent.CompletableFuture;
 import static wta.blocks.BlocksInit.allGrass;
 import static wta.blocks.BlocksInit.trapdoorDoors;
 
-public class blocksTagGen extends BlockTagProvider{
-    public blocksTagGen(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+public class BlocksTagGen extends BlockTagProvider{
+    public BlocksTagGen(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(output, registriesFuture);
     }
 

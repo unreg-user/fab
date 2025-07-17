@@ -22,13 +22,14 @@ import wta.blocks.BlocksInit;
 
 import java.util.HashMap;
 
+import static wta.TagsMod.BlockTagsMod.pistonBlocksForSet;
 import static wta.blocks.PropertiesMod.START;
 
-public class pistonTreeSaplingClass extends PistonTreeBlock {
+public class PistonTreeSaplingClass extends PistonTreeBlock {
     private static DirectionProperty ROTATE=Properties.FACING;
     public static HashMap<Direction, VoxelShape> HITBOXES=new HashMap<>();
 
-    public pistonTreeSaplingClass(Settings settings) {
+    public PistonTreeSaplingClass(Settings settings) {
         super(settings);
         this.setDefaultState((this.stateManager.getDefaultState()).with(ROTATE, Direction.UP).with(START, false));
     }
@@ -60,7 +61,7 @@ public class pistonTreeSaplingClass extends PistonTreeBlock {
     protected boolean canStateAt(BlockState state, WorldView world, BlockPos pos) {
         if (state.get(START)){
             BlockPos pos2=Fun.getBlockByF(pos, state.get(ROTATE));
-            return BlocksInit.pistonBlocksForSet.contains(world.getBlockState(pos2).getBlock());
+            return world.getBlockState(pos2).isIn(pistonBlocksForSet);
         }else{
             return true;
         }
@@ -81,7 +82,7 @@ public class pistonTreeSaplingClass extends PistonTreeBlock {
             HITBOXES.put(dirI,
                     VoxelShapes.union(
                             Fun.HalfBlockGen(dirI, 4, 3),
-                            pistonInClass.HITBOXES.get(dirI)
+                            PistonInClass.HITBOXES.get(dirI)
                     )
             );
         }

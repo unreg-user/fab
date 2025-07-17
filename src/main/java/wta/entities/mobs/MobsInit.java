@@ -1,6 +1,6 @@
 package wta.entities.mobs;
 
-public class mobsInit{
+public class MobsInit {
     //public static EntityType<enderCubeClass> EnderCubeE;
 
     public static void init(){

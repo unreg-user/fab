@@ -5,7 +5,7 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import wta.blocks.BlocksInit;
-import wta.entities.entitiesInit;
+import wta.entities.EntitiesInit;
 import wta.gui.GuiInit;
 import wta.items.ItemsInit;
 import wta.recipe_types.RecipeInit;
@@ -34,7 +34,7 @@ public class Fab implements ModInitializer, ClientModInitializer {
 		Fun.initFun();
 		BlocksInit.init();
 		ItemsInit.init();
-		entitiesInit.init();
+		EntitiesInit.init();
 		AllInit.init();
 		RecipeInit.init();
 		GuiInit.init();

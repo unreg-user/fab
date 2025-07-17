@@ -20,12 +20,12 @@ import java.util.concurrent.CompletableFuture;
 import static wta.blocks.BlocksInit.allGrass;
 import static wta.blocks.BlocksInit.trapdoorDoors;
 
-public class blockLootGen extends FabricBlockLootTableProvider{
+public class BlockLootGen extends FabricBlockLootTableProvider{
     public static ArrayList<Block> thisBlockDrop=new ArrayList<>(List.of(
             allGrass
     ));
 
-    public blockLootGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    public BlockLootGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
         super(dataOutput, registryLookup);
     }
 

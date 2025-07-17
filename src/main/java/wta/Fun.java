@@ -1,6 +1,5 @@
 package wta;
 
-import com.mojang.datafixers.types.templates.Tag;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.BlockState;

@@ -3,6 +3,8 @@
 	"package": "wta.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+		"ReplaceItemStick",
+		"Unregister"
 	],
 	"injectors": {
 		"defaultRequire": 1

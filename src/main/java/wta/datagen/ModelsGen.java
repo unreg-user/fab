@@ -24,7 +24,7 @@ import static wta.blocks.BlocksInit.*;
 import static wta.items.ItemsInit.shBreadI;
 import static wta.items.ItemsInit.shWheatI;
 
-public class modelsGen extends FabricModelProvider {
+public class ModelsGen extends FabricModelProvider {
 
     public static HashMap<Item, String> blocksParent=new HashMap<>(){{
         put(pistonFlowerI, "piston_flower");
@@ -48,7 +48,7 @@ public class modelsGen extends FabricModelProvider {
         );
     }
 
-    public modelsGen(FabricDataOutput output) {
+    public ModelsGen(FabricDataOutput output) {
         super(output);
     }
 

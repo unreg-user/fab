@@ -152,3 +152,31 @@
                             )
                     )
             );/*/
+
+    /*
+     * What? new Item? not mixined? **** you! GO AWAY VANILLA NEW ITEM, GO AWAY!!! I HATE YOU!
+     */
+    /*/@Unique
+    public void delete(RegistryKey<T> key) {
+        RegistryEntry.Reference<T> reference = this.keyToEntry.get(key);
+        if (reference == null) {
+            return;
+        }
+
+        T value = reference.value();
+
+        this.keyToEntry.remove(key);
+        this.idToEntry.remove(key.getValue());
+        this.valueToEntry.remove(value);
+        this.keyToEntryInfo.remove(key);
+
+        int index = this.entryToRawId.getInt(value);
+        if (index >= 0 && index < this.rawIdToEntry.size()) {
+            this.rawIdToEntry.remove(index);
+        }
+
+        for (int i = 0; i < this.rawIdToEntry.size(); i++) {
+            RegistryEntry.Reference<T> ref = this.rawIdToEntry.get(i);
+            this.entryToRawId.put(ref.value(), i);
+        }
+    }/*/

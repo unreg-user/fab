@@ -12,11 +12,13 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldView;
 import wta.Fun;
-import wta.blocks.BlocksInit;
 
-public class pistonUpStopedClass extends PistonTreeBlock {
-    private static DirectionProperty ROTATE= Properties.FACING;
-    public pistonUpStopedClass(Settings settings) {
+import static wta.TagsMod.BlockTagsMod.pistonBlocks;
+
+public class PistonUpStopedClass extends PistonTreeBlock {
+    private static DirectionProperty ROTATE=Properties.FACING;
+
+    public PistonUpStopedClass(Settings settings) {
         super(settings);
         this.setDefaultState((this.stateManager.getDefaultState()).with(ROTATE, Direction.UP));
     }
@@ -28,12 +30,12 @@ public class pistonUpStopedClass extends PistonTreeBlock {
 
     @Override
     protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return pistonUpClass.HITBOXES.get(state.get(ROTATE));
+        return PistonUpClass.HITBOXES.get(state.get(ROTATE));
     }
 
     @Override
     protected boolean canStateAt(BlockState state, WorldView world, BlockPos pos) {
         BlockPos pos2= Fun.getBlockByF(pos, state.get(ROTATE).getOpposite());
-        return BlocksInit.pistonBlocks.contains(world.getBlockState(pos2).getBlock());
+        return world.getBlockState(pos2).isIn(pistonBlocks);
     }
 }
