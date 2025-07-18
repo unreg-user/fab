@@ -1,7 +1,5 @@
 package wta.mixin;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -15,11 +13,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import wta.mixinClasses.Items.ItemsVanillaClasses.StickItem;
+import wta.mixinClasses.blocks.BlocksVanillaInit;
 
 import static wta.Fun.MC;
 
 @Mixin(Items.class)
-public class ReplaceItemStick {
+public class ReplaceItems {
     @Shadow
     @Final
     @Mutable
@@ -32,8 +31,11 @@ public class ReplaceItemStick {
     private static void onStaticInit(CallbackInfo ci) {
         STICK=Registry.register(
                 Registries.ITEM,
-                Identifier.of(MC, "stick"),
-                new StickItem(new Item.Settings())
+                Identifier.ofVanilla("stick"),
+                new StickItem(
+                        BlocksVanillaInit.stickBlock,
+                        new Item.Settings()
+                )
         );
     }
 }

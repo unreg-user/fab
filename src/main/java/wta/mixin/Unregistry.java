@@ -3,7 +3,6 @@ package wta.mixin;
 import com.mojang.serialization.Lifecycle;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.SimpleRegistry;
@@ -16,10 +15,8 @@ import org.spongepowered.asm.mixin.*;
 import java.util.Map;
 import java.util.Objects;
 
-import static wta.Fun.testP;
-
 @Mixin(SimpleRegistry.class)
-public abstract class Unregister<T> {
+public abstract class Unregistry<T> {
 
     @Shadow
     @Final

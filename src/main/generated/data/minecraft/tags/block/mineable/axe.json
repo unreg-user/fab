@@ -1,17 +1,15 @@
 {
   "values": [
-    "fab:cherry_trapdoor_door",
-    "fab:birch_trapdoor_door",
-    "fab:mangrove_trapdoor_door",
     "fab:bamboo_trapdoor_door",
+    "fab:cherry_trapdoor_door",
     "fab:crimson_trapdoor_door",
+    "fab:birch_trapdoor_door",
     "fab:oak_trapdoor_door",
-    "fab:copper_trapdoor_door",
-    "fab:iron_trapdoor_door",
     "fab:acacia_trapdoor_door",
     "fab:warped_trapdoor_door",
     "fab:jungle_trapdoor_door",
     "fab:dark_oak_trapdoor_door",
+    "fab:mangrove_trapdoor_door",
     "fab:spruce_trapdoor_door"
   ]
 }

@@ -6,10 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -194,7 +191,7 @@ public class StickDetectorClass extends RotateBlockDrop implements StickUsed {
     }
 
     @Override
-    public boolean useAnimation() {
-        return true;
+    public boolean useAnimation(ItemUsageContext context) {
+        return false;
     }
 }

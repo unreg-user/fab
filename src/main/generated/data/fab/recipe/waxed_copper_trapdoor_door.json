@@ -3,14 +3,14 @@
   "category": "redstone",
   "ingredients": [
     {
-      "item": "minecraft:copper_door"
+      "item": "minecraft:waxed_copper_door"
     },
     {
-      "item": "minecraft:copper_trapdoor"
+      "item": "minecraft:waxed_copper_trapdoor"
     }
   ],
   "result": {
     "count": 2,
-    "id": "fab:copper_trapdoor_door"
+    "id": "fab:waxed_copper_trapdoor_door"
   }
 }

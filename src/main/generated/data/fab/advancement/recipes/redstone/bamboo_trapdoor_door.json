@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_bamboo_trapdoor_door": {
+    "has_bamboo_door": {
       "conditions": {
         "items": [
           {
-            "items": "fab:bamboo_trapdoor_door"
+            "items": "minecraft:bamboo_door"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_bamboo_trapdoor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:bamboo_trapdoor"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_bamboo_trapdoor_door"
+      "has_bamboo_door",
+      "has_bamboo_trapdoor"
     ]
   ],
   "rewards": {

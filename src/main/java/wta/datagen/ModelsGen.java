@@ -3,10 +3,12 @@ package wta.datagen;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.enums.BlockHalf;
 import net.minecraft.data.client.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static wta.Fab.MODID;
+import static wta.Fun.MC;
 import static wta.blocks.BlocksInit.*;
 import static wta.items.ItemsInit.shBreadI;
 import static wta.items.ItemsInit.shWheatI;
@@ -54,6 +57,9 @@ public class ModelsGen extends FabricModelProvider {
 
     private static BlockStateSupplier getBSS_trapdoorDoor(String type) {
         Block block=Fun.getBlockById(MODID, type+"_trapdoor_door");
+        if (block==Blocks.AIR){
+            block=Fun.getBlockById(MODID, "waxed_"+type+"_trapdoor_door");
+        }
         BlockStateVariantMap.QuadrupleProperty map=BlockStateVariantMap.create(PropertiesMod.H_ROTATE, PropertiesMod.TRAP, Properties.BLOCK_HALF, Properties.OPEN);
         map
                 .register(Direction.WEST, true, BlockHalf.BOTTOM, false,
@@ -247,13 +253,21 @@ public class ModelsGen extends FabricModelProvider {
         return VariantsBlockStateSupplier.create(block).coordinate(map);
     }
 
+    private static Model getTrapdoorForTrapdoorDoorModel(String type){
+        return new Model(
+                Optional.of(
+                        Identifier.of(MC, "block/"+type+"_trapdoor_bottom")
+                ),
+                Optional.empty()
+        );
+    }
+
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         for (Block block : defultBlocks){
             blockStateModelGenerator.registerSimpleCubeAll(block);
-            //blockStateModelGenerator.registerSimpleState(block);
         }
-        for (String type : Fun.doorTrapdoorToSound.keySet()){
+        for (String type : Fun.fullTrapdooDoorNotWaxed){
             blockStateModelGenerator.blockStateCollector.accept(getBSS_trapdoorDoor(type));
         }
     }
@@ -268,6 +282,13 @@ public class ModelsGen extends FabricModelProvider {
         }
         for (Item item : handheldItems){
             itemModelGenerator.register(item, Models.HANDHELD);
+        }
+        for (String type : Fun.fullTrapdooDoorNotWaxed){
+            Item itemI=Registries.ITEM.get(Identifier.of(MODID, type+"_trapdoor_door"));
+            if (itemI==Items.AIR){
+                itemI=Registries.ITEM.get(Identifier.of(MODID, "waxed_"+type+"_trapdoor_door"));
+            }
+            itemModelGenerator.register(itemI, getTrapdoorForTrapdoorDoorModel(type));
         }
     }
 }

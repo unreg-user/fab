@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "fab:block/stick",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "fab:block/stick"
+    },
+    "axis=z": {
+      "model": "fab:block/stick",
+      "x": 90
+    }
+  }
+}

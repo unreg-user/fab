@@ -5,11 +5,12 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.BlockTagPro
 import net.minecraft.block.Block;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
+import wta.Fun;
 
 import java.util.concurrent.CompletableFuture;
 
+import static wta.Fab.MODID;
 import static wta.blocks.BlocksInit.allGrass;
-import static wta.blocks.BlocksInit.trapdoorDoors;
 
 public class BlocksTagGen extends BlockTagProvider{
     public BlocksTagGen(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
@@ -21,7 +22,17 @@ public class BlocksTagGen extends BlockTagProvider{
         getOrCreateTagBuilder(BlockTags.SHOVEL_MINEABLE).add(
                 allGrass
         );
-        getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
-                .add(trapdoorDoors.toArray(new Block[]{}));
+        //getOrCreateTagBuilder(BlockTags.AXE_MINEABLE);
+
+        //functions
+        for (String typeI : Fun.treeTrapdoorDoorSounds.keySet()){
+            Block block=Fun.getBlockById(MODID, typeI+"_trapdoor_door");
+            getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(block);
+        }
+
+        for (String typeI : Fun.ironTrapdoorDoorSounds.keySet()){
+            Block block=Fun.getBlockById(MODID, typeI+"_trapdoor_door");
+            getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(block);
+        }
     }
 }

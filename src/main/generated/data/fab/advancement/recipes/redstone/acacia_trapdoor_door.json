@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_acacia_trapdoor_door": {
+    "has_acacia_door": {
       "conditions": {
         "items": [
           {
-            "items": "fab:acacia_trapdoor_door"
+            "items": "minecraft:acacia_door"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_acacia_trapdoor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:acacia_trapdoor"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_acacia_trapdoor_door"
+      "has_acacia_door",
+      "has_acacia_trapdoor"
     ]
   ],
   "rewards": {

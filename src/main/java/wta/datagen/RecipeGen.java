@@ -22,13 +22,18 @@ public class RecipeGen extends FabricRecipeProvider {
 
     @Override
     public void generate(RecipeExporter exporter) {
-        for (String type : Fun.doorTrapdoorToSound.keySet()) {
+        for (String type : Fun.fullTrapdoorDoorSounds.keySet()) {
             String name=type+"_trapdoor_door";
+            String trapdoor=type+"_door";
+            String door=type+"_trapdoor";
             Block block=Fun.getBlockById(MODID, name);
+            Block trapdoor_block=Fun.getBlockById(MC, trapdoor);
+            Block door_block=Fun.getBlockById(MC, door);
             ShapelessRecipeJsonBuilder.create(RecipeCategory.REDSTONE, block, 2)
                     .input(Fun.getBlockById(MC, type+"_door"))
                     .input(Fun.getBlockById(MC, type+"_trapdoor"))
-                    .criterion(FabricRecipeProvider.hasItem(block), FabricRecipeProvider.conditionsFromItem(block))
+                    .criterion(FabricRecipeProvider.hasItem(trapdoor_block), FabricRecipeProvider.conditionsFromItem(trapdoor_block))
+                    .criterion(FabricRecipeProvider.hasItem(door_block), FabricRecipeProvider.conditionsFromItem(door_block))
                     .offerTo(exporter, Identifier.of(MODID, name));
         }
     }

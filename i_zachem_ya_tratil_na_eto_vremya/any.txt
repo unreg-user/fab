@@ -154,7 +154,7 @@
             );/*/
 
     /*
-     * What? new Item? not mixined? **** you! GO AWAY VANILLA NEW ITEM, GO AWAY!!! I HATE YOU!
+     * What? new Item? not mixined? GO AWAY VANILLA NEW ITEM, GO AWAY!!! I HATE YOU!
      */
     /*/@Unique
     public void delete(RegistryKey<T> key) {
@@ -180,3 +180,5 @@
             this.entryToRawId.put(ref.value(), i);
         }
     }/*/
+    //public static HashMap<String, Block> trapdoorDoorsAtHash=new HashMap<>();
+            //trapdoorDoorsAtHash.put(type, trapdoorDoors.getLast());

@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_birch_trapdoor_door": {
+    "has_birch_door": {
       "conditions": {
         "items": [
           {
-            "items": "fab:birch_trapdoor_door"
+            "items": "minecraft:birch_door"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_birch_trapdoor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:birch_trapdoor"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_birch_trapdoor_door"
+      "has_birch_door",
+      "has_birch_trapdoor"
     ]
   ],
   "rewards": {

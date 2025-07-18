@@ -43,7 +43,7 @@ public class TrapdoorDoorClass extends Block{
     public static HashMap<Direction, VoxelShape> HITBOXES;
     private BlockSetType sound_type;
     public TrapdoorDoorClass(BlockSetType type, Settings settings) {
-        super(settings);
+        super(settings.sounds(type.soundType()));
         this.setDefaultState((this.stateManager.getDefaultState())
                 .with(H_ROTATE, Direction.NORTH)
                 .with(OPEN, false)
@@ -102,8 +102,9 @@ public class TrapdoorDoorClass extends Block{
                 .with(OPEN, true);
     }
 
-    protected void playDoor(@Nullable Entity entity, World world, BlockPos pos, boolean open) {
-        world.playSound(entity, pos, open ? sound_type.doorOpen() : sound_type.doorClose(), SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
+    protected void playDoor(@Nullable PlayerEntity player, World world, BlockPos pos, boolean open) {
+        world.playSound(player, pos, open ? sound_type.doorOpen() : sound_type.doorClose(), SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
+        world.emitGameEvent(player, open ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
     }
 
     protected void playTrapdoor(@Nullable PlayerEntity player, World world, BlockPos pos, boolean open) {
@@ -113,12 +114,12 @@ public class TrapdoorDoorClass extends Block{
 
     protected void playUnstatic(@Nullable PlayerEntity player, World world, BlockPos pos) {
         world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
-        world.emitGameEvent(player, GameEvent.ITEM_INTERACT_FINISH, pos);
+        world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos);
     }
 
     protected void playStatic(@Nullable PlayerEntity player, World world, BlockPos pos) {
         world.playSound(player, pos, SoundEvents.BLOCK_CHAIN_PLACE, SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.1F + 0.9F);
-        world.emitGameEvent(player, GameEvent.ITEM_INTERACT_FINISH, pos);
+        world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos);
     }
 
     @Override

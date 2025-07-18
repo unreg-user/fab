@@ -1,3 +1,4 @@
-// 1.21	2025-06-23T12:04:29.6136152	fab/Tags for minecraft:block
+// 1.21	2025-07-18T13:35:29.668262	fab/Tags for minecraft:block
 c91dbea31f648cccee471e7e29fccc2ec2f7f6e6 data\minecraft\tags\block\mineable\shovel.json
-3d7d57069af9bffcbc44e68d529ecb6471988178 data\minecraft\tags\block\mineable\axe.json
+3d1af92e1dde5f3816339d1b7cfa7b473e749104 data\minecraft\tags\block\mineable\axe.json
+8b8af4b8579a9de8ab32726777b8ecba4fba5ac8 data\minecraft\tags\block\mineable\pickaxe.json

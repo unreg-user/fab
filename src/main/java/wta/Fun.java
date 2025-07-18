@@ -275,14 +275,13 @@ public class Fun {
         return true;
     }
 
-    public static HashMap<String, BlockSetType> treeToSound=new HashMap<>(){{
+    public static HashMap<String, BlockSetType> treeTrapdoorDoorSounds=new HashMap<>(){{
         put("birch", BlockSetType.BIRCH);
         put("oak", BlockSetType.OAK);
         put("acacia", BlockSetType.ACACIA);
         put("jungle", BlockSetType.JUNGLE);
         put("bamboo", BlockSetType.BAMBOO);
         put("cherry", BlockSetType.CHERRY);
-        put("copper", BlockSetType.COPPER);
         put("crimson", BlockSetType.CRIMSON);
         put("dark_oak", BlockSetType.DARK_OAK);
         put("mangrove", BlockSetType.MANGROVE);
@@ -290,20 +289,28 @@ public class Fun {
         put("spruce", BlockSetType.SPRUCE);
     }};
 
-    public static HashMap<String, BlockSetType> doorTrapdoorToSound =new HashMap<>(){{
-        put("birch", BlockSetType.BIRCH);
-        put("oak", BlockSetType.OAK);
-        put("acacia", BlockSetType.ACACIA);
-        put("jungle", BlockSetType.JUNGLE);
-        put("bamboo", BlockSetType.BAMBOO);
-        put("cherry", BlockSetType.CHERRY);
-        put("copper", BlockSetType.COPPER);
-        put("crimson", BlockSetType.CRIMSON);
-        put("dark_oak", BlockSetType.DARK_OAK);
-        put("mangrove", BlockSetType.MANGROVE);
-        put("warped", BlockSetType.WARPED);
-        put("spruce", BlockSetType.SPRUCE);
+    public static HashMap<String, BlockSetType> ironTrapdoorDoorSounds=new HashMap<>(){{
         put("iron", BlockSetType.IRON);
+        put("waxed_copper", BlockSetType.COPPER);
+        put("waxed_exposed_copper", BlockSetType.COPPER);
+        put("waxed_oxidized_copper", BlockSetType.COPPER);
+        put("waxed_weathered_copper", BlockSetType.COPPER);
+    }};
+
+    public static List<String> ironTrapdoorDoorNotWaxed =List.of(
+            "iron",
+            "copper",
+            "exposed_copper",
+            "oxidized_copper",
+            "weathered_copper"
+    );
+
+    public static HashMap<String, BlockSetType> fullTrapdoorDoorSounds=new HashMap<>(treeTrapdoorDoorSounds){{
+        putAll(ironTrapdoorDoorSounds);
+    }};
+
+    public static ArrayList<String> fullTrapdooDoorNotWaxed=new ArrayList<>(ironTrapdoorDoorNotWaxed){{
+        addAll(treeTrapdoorDoorSounds.keySet());
     }};
 
     public static Boolean equalsBlockStateGroup(BlockState state1, BlockState state2, Property[] check_list){

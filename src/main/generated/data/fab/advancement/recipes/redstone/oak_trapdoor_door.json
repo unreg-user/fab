@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_oak_trapdoor_door": {
+    "has_oak_door": {
       "conditions": {
         "items": [
           {
-            "items": "fab:oak_trapdoor_door"
+            "items": "minecraft:oak_door"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_oak_trapdoor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:oak_trapdoor"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_oak_trapdoor_door"
+      "has_oak_door",
+      "has_oak_trapdoor"
     ]
   ],
   "rewards": {

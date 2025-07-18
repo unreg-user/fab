@@ -1,5 +1,7 @@
 package wta.blocks.interfaces;
 
+import net.minecraft.item.ItemUsageContext;
+
 public interface StickUsed {
-    public boolean useAnimation();
+    boolean useAnimation(ItemUsageContext context);
 }

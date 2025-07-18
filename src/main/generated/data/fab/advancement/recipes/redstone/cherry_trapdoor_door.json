@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_cherry_trapdoor_door": {
+    "has_cherry_door": {
       "conditions": {
         "items": [
           {
-            "items": "fab:cherry_trapdoor_door"
+            "items": "minecraft:cherry_door"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_cherry_trapdoor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:cherry_trapdoor"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_cherry_trapdoor_door"
+      "has_cherry_door",
+      "has_cherry_trapdoor"
     ]
   ],
   "rewards": {

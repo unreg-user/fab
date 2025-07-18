@@ -23,12 +23,12 @@ import wta.blocks.blocksModClasses.*;
 import wta.blocks.blocksModClasses.pistonP.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static wta.Fab.MODID;
 
 public class BlocksInit{
+    //Blocks && Items
     public static Block usbb;
     public static Item usbbI;
     public static Block shSeeds;
@@ -57,18 +57,16 @@ public class BlocksInit{
     public static Item brewingStonecutterTableI;
     public static BlockEntityType<BrewingStonecutterTableEClass> brewingStonecutterTableBE;
 
+    //Settings
     public static AbstractBlock.Settings pistonSETTINGS;
     public static AbstractBlock.Settings pistonRandomlySETTINGS;
 
-    /*/public static List<Block> pistonBlocksForSet;
-    public static List<Block> pistonBlocks;
-    public static List<Block> pistonBlocksRotate;/*/
+    //other
     public static ArrayList<Block> trapdoorDoors=new ArrayList<>();
-    public static HashMap<String, Block> trapdoorDoorsAtHash=new HashMap<>();
     public static ArrayList<Item> trapdoorDoorsI=new ArrayList<>();
 
     public static void init(){
-        //blocks && items
+        //Blocks && Items
         usbb=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "up_sweet_berry_bush"),
@@ -134,6 +132,12 @@ public class BlocksInit{
                 .pistonBehavior(PistonBehavior.BLOCK)
                 .ticksRandomly();
 
+        pistonKnot=Registry.register(
+                Registries.BLOCK,
+                Identifier.of(MODID, "piston_knot"),
+                new PistonKnotClass(pistonSETTINGS)
+        );
+
         pistonSapling=Registry.register(
                 Registries.BLOCK,
                 Identifier.of(MODID, "piston_sapling"),
@@ -161,12 +165,6 @@ public class BlocksInit{
                 Registries.BLOCK,
                 Identifier.of(MODID, "piston_tree_up_stoped"),
                 new PistonUpStopedClass(pistonSETTINGS)
-        );
-
-        pistonKnot=Registry.register(
-                Registries.BLOCK,
-                Identifier.of(MODID, "piston_knot"),
-                new PistonKnotClass(pistonSETTINGS)
         );
 
         pistonCompKnot=Registry.register(
@@ -239,13 +237,21 @@ public class BlocksInit{
                 )
         );
 
-        for (String type : Fun.doorTrapdoorToSound.keySet()){
+        for (String type : Fun.treeTrapdoorDoorSounds.keySet()){
             String name=type+"_trapdoor_door";
             trapdoorDoors.add(
                     Registry.register(
                             Registries.BLOCK,
                             Identifier.of(MODID, name),
-                            new TrapdoorDoorClass(Fun.doorTrapdoorToSound.get(type), AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).strength(3.0F).nonOpaque().allowsSpawning(Blocks::never).burnable())
+                            new TrapdoorDoorClass(
+                                    Fun.treeTrapdoorDoorSounds.get(type),
+                                    AbstractBlock.Settings.create()
+                                            .mapColor(MapColor.OAK_TAN)
+                                            .strength(3.0F)
+                                            .nonOpaque()
+                                            .allowsSpawning(Blocks::never)
+                                            .burnable()
+                            )
                     )
             );
             trapdoorDoorsI.add(
@@ -257,7 +263,34 @@ public class BlocksInit{
                             )
                     )
             );
-            trapdoorDoorsAtHash.put(type, trapdoorDoors.getLast());
+        }
+        for (String type : Fun.ironTrapdoorDoorSounds.keySet()){
+            String name=type+"_trapdoor_door";
+            trapdoorDoors.add(
+                    Registry.register(
+                            Registries.BLOCK,
+                            Identifier.of(MODID, name),
+                            new TrapdoorDoorClass(
+                                    Fun.ironTrapdoorDoorSounds.get(type),
+                                    AbstractBlock.Settings.create()
+                                            .mapColor(MapColor.IRON_GRAY)
+                                            .strength(5.0F)
+                                            .nonOpaque()
+                                            .allowsSpawning(Blocks::never)
+                                            .requiresTool()
+                                            .sounds(BlockSoundGroup.COPPER)
+                            )
+                    )
+            );
+            trapdoorDoorsI.add(
+                    Registry.register(
+                            Registries.ITEM,
+                            Identifier.of(MODID, name),
+                            new BlockItem(trapdoorDoors.getLast(),
+                                    new Item.Settings()
+                            )
+                    )
+            );
         }
 
         pointedDripstoneTable=Registry.register(
@@ -329,26 +362,10 @@ public class BlocksInit{
         ));
         inMI.addAll(trapdoorDoorsI);
         AllInit.inMI.add(inMI.toArray(new Item[0]));
-
-        /*/pistonBlocksRotate=List.of(
-                pistonUp,
-                pistonIn,
-                pistonSapling,
-                pistonUpStoped
-        );
-        pistonBlocksForSet=List.of(
-                pistonUp,
-                pistonIn,
-                pistonCompKnot,
-                pistonFlower,
-                pistonKnot,
-                pistonUpStoped
-        );
-        pistonBlocks=new ArrayList<>(pistonBlocksForSet){{
-            add(pistonSapling);
-        }};/*/
     }
+
     public static void clientInit(){
+        //Blocks && Items
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
                 usbb,
                 shSeeds
