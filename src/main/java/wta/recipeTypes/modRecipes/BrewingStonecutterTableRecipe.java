@@ -1,4 +1,4 @@
-package wta.recipe_types.modRecipes;
+package wta.recipeTypes.modRecipes;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Recipe;
@@ -7,7 +7,7 @@ import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
-import wta.recipe_types.RecipeInit;
+import wta.recipeTypes.RecipeInit;
 
 public class BrewingStonecutterTableRecipe implements Recipe<SingleStackRecipeInput> {
     public final ItemStack input;

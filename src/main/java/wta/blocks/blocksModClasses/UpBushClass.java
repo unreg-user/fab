@@ -118,7 +118,7 @@ public class UpBushClass extends PlantBlock implements Fertilizable {
 
     @Override
     protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        BlockPos blockPos = pos.up();
+        BlockPos blockPos=pos.up();
         return this.canPlantOnTop(world.getBlockState(blockPos), world, blockPos);
     }
 
@@ -128,15 +128,15 @@ public class UpBushClass extends PlantBlock implements Fertilizable {
     }
 
     static {
-        AGE = Properties.AGE_3;
-        SMALL_SHAPE = Block.createCuboidShape(
+        AGE=Properties.AGE_3;
+        SMALL_SHAPE=Block.createCuboidShape(
                 3.0F,
                 8.0F,
                 3.0F,
                 13.0F,
                 16.0F,
                 13.0F);
-        LARGE_SHAPE = Block.createCuboidShape(
+        LARGE_SHAPE=Block.createCuboidShape(
                 1.0F,
                 0.0F,
                 1.0F,

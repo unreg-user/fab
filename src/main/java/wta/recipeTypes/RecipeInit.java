@@ -1,12 +1,12 @@
-package wta.recipe_types;
+package wta.recipeTypes;
 
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import wta.recipe_types.modRecipes.BrewingStonecutterTableRecipe;
-import wta.recipe_types.modSeriya.BrewingStonecutterTableRecipeSerializer;
+import wta.recipeTypes.modRecipes.BrewingStonecutterTableRecipe;
+import wta.recipeTypes.modSeriya.BrewingStonecutterTableRecipeSerializer;
 
 import static wta.Fab.MODID;
 

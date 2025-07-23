@@ -8,7 +8,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.recipe.RecipeManager;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -19,15 +19,17 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 import wta.blocks.BlocksInit;
-import wta.gui.guiMod.BrewingStonecutterTableGUIClass;
-import wta.recipe_types.RecipeInit;
+import wta.gui.guiMod.brewingStonecutterTable.BrewingStonecutterTableGUIClass;
+import wta.recipeTypes.RecipeInit;
+import wta.recipeTypes.modRecipes.BrewingStonecutterTableRecipe;
+
+import java.util.Optional;
 
 public class BrewingStonecutterTableEClass extends LootableContainerBlockEntity implements NamedScreenHandlerFactory{
     private int clicks=0;
-    private PropertyDelegate properties;
-    public static final int propertySize=1;
-    public static final int maxClicks=5;
-    //Items.TORCH
+    private int maxClicks=5;
+    private final PropertyDelegate properties;
+    public static final int propertySize=2;
     /**
      * 0-8 is START slots<br>
      * 9-17 is FINISH slots<br>
@@ -44,6 +46,9 @@ public class BrewingStonecutterTableEClass extends LootableContainerBlockEntity 
                     case 0 -> {
                         return clicks;
                     }
+                    case 1 -> {
+                        return maxClicks;
+                    }
                     default -> {
                         return 0;
                     }
@@ -54,6 +59,9 @@ public class BrewingStonecutterTableEClass extends LootableContainerBlockEntity 
                 switch (index){
                     case 0 -> {
                         clicks=value;
+                    }
+                    case 1 -> {
+                        maxClicks=value;
                     }
                 }
             }
@@ -69,6 +77,7 @@ public class BrewingStonecutterTableEClass extends LootableContainerBlockEntity 
         super.writeNbt(nbt, registryLookup);
 
         nbt.putInt("clicks", clicks);
+        nbt.putInt("max_clicks", maxClicks);
         Inventories.writeNbt(nbt, this.inventory, registryLookup);
     }
 
@@ -77,12 +86,13 @@ public class BrewingStonecutterTableEClass extends LootableContainerBlockEntity 
         super.readNbt(nbt, registryLookup);
 
         clicks=nbt.getInt("clicks");
+        maxClicks=nbt.getInt("max_clicks");
         inventory=DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
         Inventories.readNbt(nbt, inventory, registryLookup);
     }
 
-    public void onClick(){
-        clicks++;
+    public void onClick(int count){
+        clicks+=count;
         if (clicks>=maxClicks){
             clicks=0;
             onMaxClick();
@@ -105,31 +115,34 @@ public class BrewingStonecutterTableEClass extends LootableContainerBlockEntity 
     }
 
     protected Boolean tryCraft(int slot){
-        if (slot>0 && slot<9) {
+        if (slot>-1 && slot<9) {
             int slot2=slot+9;
             ItemStack stack=this.getStack(slot);
             if (stack!=ItemStack.EMPTY) {
                 ItemStack stack2=this.getStack(slot2);
-                ItemStack result=RecipeManager.createCachedMatchGetter(RecipeInit.brewingStonecutterTableRT).getFirstMatch(new SingleStackRecipeInput(stack), this.getWorld())
-                        .map(recipeEntry -> recipeEntry.value().getResult(world.getRegistryManager()))
-                        .orElse(ItemStack.EMPTY).copy();
-                Item resultI=result.getItem();
-                if (result!=ItemStack.EMPTY){
-                    boolean ret=false;
-                    if (stack2==ItemStack.EMPTY){
-                        this.setStack(slot2, result);
-                        ret=true;
-                    }else if (stack2.getItem()==resultI){
-                        int countN=stack2.getCount()+result.getCount();
-                        if (countN<=resultI.getMaxCount()){
-                            stack2.setCount(countN);
+                SingleStackRecipeInput stackInput=new SingleStackRecipeInput(stack);
+                Optional<RecipeEntry<BrewingStonecutterTableRecipe>> recipe=world.getRecipeManager()
+                        .getFirstMatch(RecipeInit.brewingStonecutterTableRT, stackInput, world);
+                if (recipe.isPresent()){
+                    ItemStack result=recipe.get().value().craft(stackInput, world.getRegistryManager());
+                    Item resultI=result.getItem();
+                    if (result!=ItemStack.EMPTY){
+                        boolean ret=false;
+                        if (stack2.isEmpty()){
+                            this.setStack(slot2, result);
                             ret=true;
+                        }else if (stack2.getItem()==resultI){
+                            int countN=stack2.getCount()+1;
+                            if (countN<=stack2.getMaxCount()){
+                                stack2.setCount(countN);
+                                ret=true;
+                            }
                         }
+                        if (ret){
+                            stack.decrement(1);
+                        }
+                        return ret;
                     }
-                    if (ret){
-                        stack.decrement(1);
-                    }
-                    return ret;
                 }
             }
         }

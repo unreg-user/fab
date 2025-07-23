@@ -1,6 +1,5 @@
-package wta.blocks.blocksModClasses;
+package wta.blocks.blocksModClasses.stick_detectors;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -18,7 +17,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import wta.blocks.blockEntitiesModClasses.BrewingStonecutterTableEClass;
 
-public class BrewingStonecutterTableClass extends Block implements BlockEntityProvider {
+public class BrewingStonecutterTableClass extends StickDetectorBlock implements BlockEntityProvider {
     public BrewingStonecutterTableClass(Settings settings) {
         super(settings);
     }
@@ -50,7 +49,13 @@ public class BrewingStonecutterTableClass extends Block implements BlockEntityPr
         }
         Item item=stack.getItem();
         if (item==Items.STICK){
-            blockEn.onClick();
+            int power=getStickPower(stack, rand);
+            if (power<=0){
+                return ItemActionResult.SUCCESS;
+            }
+            blockEn.onClick(power);
+            world.setBlockState(pos, state.with(POWER, power), 3);
+            world.scheduleBlockTick(pos, this, stopTicks);
             return ItemActionResult.SUCCESS;
         }
         return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;

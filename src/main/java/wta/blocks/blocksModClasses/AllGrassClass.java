@@ -62,14 +62,16 @@ public class AllGrassClass extends Block implements Fertilizable {
 
     @Override
     protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        BlockPos pos2=pos.add(
-                random.nextInt(3) - 1,
-                random.nextInt(3) - 1,
-                random.nextInt(3) - 1
-        );
-        BlockState state2=world.getBlockState(pos2);
-        if (state2.isIn(BlockTags.DIRT) && state2.getBlock()!=this){
-            world.setBlockState(pos2, this.getDefaultState(), 3);
+        if (random.nextInt(3)==0){
+            BlockPos pos2=pos.add(
+                    random.nextInt(3) - 1,
+                    random.nextInt(3) - 1,
+                    random.nextInt(3) - 1
+            );
+            BlockState state2=world.getBlockState(pos2);
+            if (state2.isIn(BlockTags.DIRT) && state2.getBlock()!=this){
+                world.setBlockState(pos2, this.getDefaultState(), 3);
+            }
         }
     }
 

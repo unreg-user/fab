@@ -1,4 +1,4 @@
-package wta.recipe_types.modSeriya;
+package wta.recipeTypes.modSeriya;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.RecipeSerializer;
-import wta.recipe_types.modRecipes.BrewingStonecutterTableRecipe;
+import wta.recipeTypes.modRecipes.BrewingStonecutterTableRecipe;
 
 public class BrewingStonecutterTableRecipeSerializer implements RecipeSerializer<BrewingStonecutterTableRecipe> {
     public static final MapCodec<BrewingStonecutterTableRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

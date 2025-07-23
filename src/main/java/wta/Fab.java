@@ -8,7 +8,7 @@ import wta.blocks.BlocksInit;
 import wta.entities.EntitiesInit;
 import wta.gui.GuiInit;
 import wta.items.ItemsInit;
-import wta.recipe_types.RecipeInit;
+import wta.recipeTypes.RecipeInit;
 
 /**
  * ...ANY:
@@ -45,6 +45,7 @@ public class Fab implements ModInitializer, ClientModInitializer {
 	public void onInitializeClient() {
 		BlocksInit.clientInit();
 		GuiInit.clientInit();
+		EntitiesInit.clientInit();
 		LOGGER.info("Hello Fabric client! Odnii!");
 	}
 }

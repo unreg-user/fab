@@ -388,24 +388,30 @@ public class Fun {
         private static final double converter=0.5D;
         private static final double mconverter=-converter;
         private ArrayList<ArrayList<Double>> voxels;
+
         private VoxelShapeR(ArrayList<ArrayList<Double>> voxels, boolean bMove){
             this.voxels=voxels;
             if (bMove) {
                 move(mconverter);
             }
         }
+
         public VoxelShapeR(ArrayList<ArrayList<Double>> voxels){
             this(voxels, true);
         }
+
         public VoxelShapeR(List<List<Double>> voxels){
             this(listToArrayList2D(voxels));
         }
+
         public VoxelShapeR(VoxelShape shape){
             this(ShapesR.getVoxelsA(shape));
         }
+
         public VoxelShapeR copy(){
             return new VoxelShapeR(deepcopy2D(this.voxels), false);
         }
+
         public void move(double xyz){
             voxels=new  ArrayList<>(
                     voxels.stream().map(
@@ -417,9 +423,28 @@ public class Fun {
                     ).toList()
             );
         }
+
+        public void move(double x, double y, double z){
+            voxels=new  ArrayList<>(
+                    voxels.stream().map(
+                            (e) -> new ArrayList<>(
+                                    List.of(
+                                        e.get(0)+x,
+                                        e.get(1)+y,
+                                        e.get(2)+z,
+                                        e.get(3)+x,
+                                        e.get(4)+y,
+                                        e.get(5)+z
+                                    )
+                            )
+                    ).toList()
+            );
+        }
+
         public VoxelShapeR mirror(Direction.Axis axis){
             return mirror(axisToInt(axis));
         }
+
         public VoxelShapeR mirror(int axis){
             for (List<Double> voxel : voxels){
                 voxel.set(axis, -voxel.get(axis));
@@ -427,7 +452,9 @@ public class Fun {
 
             }
             return this;
+
         }
+
         private void rotate(int axis, int axis2){
             int axisN=axis+3;
             int axisN2=axis2+3;
@@ -436,17 +463,20 @@ public class Fun {
                 rotateOp(voxel, axisN, axisN2);
             }
         }
+
         private void rotateOp(List<Double> list, int pos, int pos2){
             double[] listOp={list.get(pos2), -list.get(pos)};
             list.set(pos, listOp[0]);
             list.set(pos2, listOp[1]);
         }
+
         private void normMinMax(List<Double> list, int pos, int pos2){
             double p=list.get(pos);
             double p2=list.get(pos2);
             list.set(pos, Math.min(p, p2));
             list.set(pos2, Math.max(p, p2));
         }
+
         public VoxelShapeR rotate(int deg, int axis, int axis2){
             if (axis!=axis2) {
                 if (deg > 0) {
@@ -461,13 +491,16 @@ public class Fun {
             }
             return this;
         }
+
         public VoxelShapeR rotate(int deg, Direction.Axis axis, Direction.Axis axis2){
             return rotate(deg, axisToInt(axis), axisToInt(axis2));
         }
+
         public VoxelShapeR rotate(int deg, Direction dir, Direction dir2){
             int mul=-dir.getDirection().offset()*dir2.getDirection().offset();
             return rotate(deg*mul, dir.getAxis(), dir2.getAxis());
         }
+
         private void allFix(){
             for (List<Double> voxel : voxels){
                 normMinMax(voxel, 0, 3);
@@ -475,17 +508,21 @@ public class Fun {
                 normMinMax(voxel, 2, 5);
             }
         }
+
         public VoxelShape getShape(){
             move(converter);
             allFix();
             return ShapesR.getVoxelShape(voxels);
         }
+
         public static HashMap<Direction, VoxelShape> rotateMap(Direction dir, VoxelShape shape){
             return rotateMap(dir, new VoxelShapeR(shape), shape);
         }
+
         public static HashMap<Direction, VoxelShape> rotateMap(Direction dir, VoxelShapeR shape){
             return rotateMap(dir, shape, shape.getShape());
         }
+
         private static HashMap<Direction, VoxelShape> rotateMap(Direction dir, VoxelShapeR shapeR, VoxelShape shape){
             ArrayList<Direction> dirs=new ArrayList<>(Fun.dirs);
             HashMap<Direction, VoxelShape> ret=new HashMap<>();

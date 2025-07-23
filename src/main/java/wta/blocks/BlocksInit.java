@@ -21,6 +21,8 @@ import wta.Fun;
 import wta.blocks.blockEntitiesModClasses.BrewingStonecutterTableEClass;
 import wta.blocks.blocksModClasses.*;
 import wta.blocks.blocksModClasses.pistonP.*;
+import wta.blocks.blocksModClasses.stick_detectors.BrewingStonecutterTableClass;
+import wta.blocks.blocksModClasses.stick_detectors.StickDetectorClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -315,6 +317,9 @@ public class BlocksInit{
                 Identifier.of(MODID, "brewing_stonecutter_table"),
                 new BrewingStonecutterTableClass(
                         AbstractBlock.Settings.create()
+                                .mapColor(MapColor.DIRT_BROWN)
+                                .sounds(BlockSoundGroup.WOOD)
+                                .strength(3.5F)
                 )
         );
         brewingStonecutterTableI=Registry.register(
@@ -333,6 +338,7 @@ public class BlocksInit{
                 Identifier.of(MODID, "stick_detector"),
                 new StickDetectorClass(
                         AbstractBlock.Settings.create()
+                                .mapColor(MapColor.DIRT_BROWN)
                                 .sounds(BlockSoundGroup.GRASS)
                                 .nonOpaque()
                                 .allowsSpawning(Blocks::never)

@@ -1,17 +1,21 @@
-package wta.blocks.blocksModClasses;
+package wta.blocks.blocksModClasses.stick_detectors;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.IntProperty;
+import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -22,94 +26,44 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 import wta.Fun;
-import wta.blocks.PropertiesMod;
-import wta.blocks.blocksModClasses.classes.RotateBlockDrop;
-import wta.blocks.interfaces.StickUsed;
 
 import java.util.HashMap;
 
-public class StickDetectorClass extends RotateBlockDrop implements StickUsed {
+public class StickDetectorClass extends StickDetectorBlock {
     public static final MapCodec<StickDetectorClass> CODEC=createCodec(StickDetectorClass::new);
-    private static final IntProperty POWER=PropertiesMod.STICK_POWER;
     private static final HashMap<Direction, VoxelShape> HITBPXES;
+    private static final DirectionProperty ROTATE=Properties.FACING;
     private static final int stopTicks=3;
 
     public StickDetectorClass(Settings settings) {
         super(settings);
         this.setDefaultState((this.stateManager.getDefaultState())
                 .with(ROTATE, Direction.UP)
-                .with(POWER, 0)
         );
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(ROTATE, POWER);
+        super.appendProperties(builder);
+        builder.add(ROTATE);
     }
 
     @Override
     protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         Item item=stack.getItem();
         if (item==Items.STICK){
-            world.setBlockState(pos, state.with(POWER, getStickPower(stack, Random.create())), 3);
+            world.setBlockState(pos, state.with(POWER, getStickPower(stack, rand)), 3);
             updateNeighbors(world, pos, state);
             world.scheduleBlockTick(pos, this, stopTicks);
             playStick(world, player, pos);
             return ItemActionResult.SUCCESS;
         }
         return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-    }
-
-    public static int getStickLevel(ItemStack stack){
-        int level=0;
-        if (stack.getItem()!=Items.STICK){
-            return -1;
-        }
-        if (stack.getCount()==1){
-            level+=1;
-        }
-        if (stack.get(DataComponentTypes.CUSTOM_NAME)!=null){
-            level+=1;
-        }
-        return level;
-    }
-
-    public static int getStickLevel02(ItemStack stack){
-        int level=0;
-        if (stack.getItem()!=Items.STICK){
-            return 0;
-        }
-        if (stack.getCount()==1){
-            level+=1;
-        }
-        if (stack.get(DataComponentTypes.CUSTOM_NAME)!=null){
-            level+=1;
-        }
-        return level;
-    }
-
-    public static int getStickPower(ItemStack stack, Random random){
-        int level=getStickLevel(stack);
-        if (level==-1){
-            return 0;
-        }else if (level==0){
-            return random.nextInt(2);
-        }else if (level==1){
-            return 1;
-        }else{
-            return random.nextInt(2)+1;
-        }
-    }
-
-    public static int getStickRedstonePower(int level){
-        if (level==0){
-            return 0;
-        }
-        return 8*level-1;
     }
 
     private void updateNeighbors(World world, BlockPos pos, BlockState state) {
@@ -128,14 +82,14 @@ public class StickDetectorClass extends RotateBlockDrop implements StickUsed {
     }
 
     @Override
-    protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        world.setBlockState(pos, state.with(POWER, 0), 3);
-        updateNeighbors(world, pos, state);
+    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return HITBPXES.get(state.get(ROTATE));
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return HITBPXES.get(state.get(ROTATE));
+    protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        super.scheduledTick(state, world, pos, random);
+        updateNeighbors(world, pos, state);
     }
 
     @Override
@@ -179,6 +133,17 @@ public class StickDetectorClass extends RotateBlockDrop implements StickUsed {
         }
     }
 
+    @Override
+    protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        return canStateAt(state, world, pos) ? state : Blocks.AIR.getDefaultState();
+    }
+
+    protected boolean canStateAt(BlockState state, WorldAccess world, BlockPos pos){
+        Direction rotate=state.get(ROTATE);
+        BlockPos pos2=pos.offset(rotate.getOpposite());
+        return world.getBlockState(pos2).isSideSolidFullSquare(world, pos2, rotate);
+    }
+
     static {
         VoxelShape hitbox=VoxelShapes.union(
                 Fun.HalfBlockGen(Direction.UP, 0.5F, 3),
@@ -188,10 +153,5 @@ public class StickDetectorClass extends RotateBlockDrop implements StickUsed {
                 Block.createCuboidShape(0, 0, 14, 16, 3, 16)
         );
         HITBPXES=Fun.VoxelShapeR.rotateMap(Direction.UP, hitbox);
-    }
-
-    @Override
-    public boolean useAnimation(ItemUsageContext context) {
-        return false;
     }
 }

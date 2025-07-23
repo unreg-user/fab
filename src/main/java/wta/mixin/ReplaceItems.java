@@ -15,8 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import wta.mixinClasses.Items.ItemsVanillaClasses.StickItem;
 import wta.mixinClasses.blocks.BlocksVanillaInit;
 
-import static wta.Fun.MC;
-
 @Mixin(Items.class)
 public class ReplaceItems {
     @Shadow

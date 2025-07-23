@@ -10,7 +10,7 @@ import wta.Fun;
 import java.util.concurrent.CompletableFuture;
 
 import static wta.Fab.MODID;
-import static wta.blocks.BlocksInit.allGrass;
+import static wta.blocks.BlocksInit.*;
 
 public class BlocksTagGen extends BlockTagProvider{
     public BlocksTagGen(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
@@ -21,6 +21,10 @@ public class BlocksTagGen extends BlockTagProvider{
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
         getOrCreateTagBuilder(BlockTags.SHOVEL_MINEABLE).add(
                 allGrass
+        );
+        getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(
+                brewingStonecutterTable,
+                pointedDripstoneTable
         );
         //getOrCreateTagBuilder(BlockTags.AXE_MINEABLE);
 

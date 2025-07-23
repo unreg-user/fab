@@ -7,7 +7,7 @@ import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import wta.gui.Handled.BrewingStonecutterTableGUIHClass;
-import wta.gui.guiMod.BrewingStonecutterTableGUIClass;
+import wta.gui.guiMod.brewingStonecutterTable.BrewingStonecutterTableGUIClass;
 
 import static wta.Fab.MODID;
 

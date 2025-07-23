@@ -136,7 +136,7 @@ public class ShSeedsClass extends PlantBlock implements Fertilizable {
     }
 
     protected ItemConvertible getSeedsItem() {
-        return Items.WHEAT_SEEDS;
+        return BlocksInit.shSeedsI;
     }
 
     public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {

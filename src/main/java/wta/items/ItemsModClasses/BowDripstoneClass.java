@@ -67,18 +67,17 @@ public class BowDripstoneClass extends Item{
         if (power < 0.1F) return;
 
         if (!world.isClient) {
-            // falling_block
-            BlockState state = Fun.getStackState(projectile, restater);
+            //spawn falling_block
+            BlockState state=Fun.getStackState(projectile, restater);
+            Vec3d direction=player.getRotationVec(1.0F);
+            double speed=power*1.5D;
 
             FallingBlockEntity fallingBlock = FallingBlockEntity.spawnFromBlock(world, player.getBlockPos(), state);
             fallingBlock.setHurtEntities(power * 2, 40);
             fallingBlock.setPosition(player.getX(), player.getY() + player.getEyeHeight(player.getPose()), player.getZ());
-
-            Vec3d direction = player.getRotationVec(1.0F);
-
-            double speed = power*1.5D;
             fallingBlock.setVelocity(direction.x * speed, direction.y * speed, direction.z * speed);
-            fallingBlock.velocityModified = true;
+            fallingBlock.velocityModified=true;
+            fallingBlock.dropItem=!creative;
 
             world.spawnEntity(fallingBlock);
         }
