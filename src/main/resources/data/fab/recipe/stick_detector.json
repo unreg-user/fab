@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "0": {
+      "item": "minecraft:stick"
+    },
+    "-": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "000",
+    "0-0",
+    "000"
+  ],
+  "result": {
+    "count": 1,
+    "id": "fab:stick_detector"
+  }
+}

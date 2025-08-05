@@ -1,0 +1,9 @@
+{
+  "parent": "fab:block/template_brewing_stonecutter_table",
+  "textures": {
+    "redstone": "fab:block/element_stick_detector_redstone_ee",
+    "wood": "block/birch_planks",
+    "stick": "fab:block/stick_block",
+    "crafting": "block/crafting_table_side"
+  }
+}

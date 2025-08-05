@@ -195,3 +195,8 @@ map
             put(Direction.SOUTH, (new Fun.VoxelShapeR(hitbox).rotate(1, Direction.UP, Direction.SOUTH).getShape()));
             put(Direction.NORTH, (new Fun.VoxelShapeR(hitbox).rotate(1, Direction.UP, Direction.NORTH).getShape()));
         }};/*/
+        /*/ArrowEntity arrowEntity = new ArrowEntity(entity.getWorld(), entity.getX(), entity.getY(), entity.getZ(), ItemStack.EMPTY, (ItemStack)null);
+                arrowEntity.setYaw((float)(Math.atan2((double)directionX, (double)directionZ) * (double)(180F / (float)Math.PI)));
+                arrowEntity.setPitch((float)(Math.atan2((double)directionY, (double)f) * (double)(180F / (float)Math.PI)));
+                arrowEntity.prevYaw = arrowEntity.getYaw();
+                arrowEntity.prevPitch = arrowEntity.getPitch();/*/

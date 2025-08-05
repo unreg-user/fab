@@ -97,7 +97,7 @@ public class AllGrassClass extends Block implements Fertilizable {
         }
     }
 
-    public Fertilizable.FertilizableType getFertilizableType() {
+    public FertilizableType getFertilizableType() {
         return FertilizableType.NEIGHBOR_SPREADER;
     }
 }

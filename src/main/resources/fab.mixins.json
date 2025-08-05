@@ -1,10 +1,12 @@
 {
 	"required": true,
-	"package": "wta.mixin",
+	"package": "wta.mixins.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"ReplaceItems",
-      "Unregistry"
+		"Unregistry",
+		"EntityRendererFixer",
+		"LivingEntityFixer"
 	],
 	"injectors": {
 		"defaultRequire": 1

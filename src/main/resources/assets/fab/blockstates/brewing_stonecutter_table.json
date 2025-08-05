@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "stick_power=0": {
+      "model": "fab:block/brewing_stonecutter_table_d"
+    },
+    "stick_power=1": {
+      "model": "fab:block/brewing_stonecutter_table_e"
+    },
+    "stick_power=2": {
+      "model": "fab:block/brewing_stonecutter_table_ee"
+    }
+  }
+}

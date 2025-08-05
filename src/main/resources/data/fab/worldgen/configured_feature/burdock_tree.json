@@ -1,0 +1,7 @@
+{
+  "type": "fab:ball_tree",
+  "config": {
+    "log": "fab:burdock_log",
+    "leaves": "fab:burdock_leaves"
+  }
+}

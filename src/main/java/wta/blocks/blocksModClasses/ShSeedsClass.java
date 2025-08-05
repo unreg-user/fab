@@ -7,7 +7,6 @@ import net.minecraft.entity.mob.RavagerEntity;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
@@ -38,7 +37,7 @@ public class ShSeedsClass extends PlantBlock implements Fertilizable {
         return CODEC;
     }
 
-    public ShSeedsClass(AbstractBlock.Settings settings) {
+    public ShSeedsClass(Settings settings) {
         super(settings);
         this.setDefaultState((BlockState)((BlockState)this.stateManager.getDefaultState()).with(this.getAgeProperty(), 0).with(ROTATE, Direction.UP));
     }

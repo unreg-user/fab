@@ -42,3 +42,4 @@ replay_*.log
 #my
 
 src/test
+src/main/generated

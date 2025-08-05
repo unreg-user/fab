@@ -36,7 +36,7 @@ public class UpBushClass extends PlantBlock implements Fertilizable {
         return CODEC;
     }
 
-    public UpBushClass(AbstractBlock.Settings settings) {
+    public UpBushClass(Settings settings) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(AGE, 0));
     }

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:crafting_table"
+    },
+    {
+      "item": "minecraft:brewing_stand"
+    },
+    {
+      "item": "minecraft:furnace"
+    },
+    {
+      "item": "minecraft:stonecutter"
+    },
+    {
+      "item": "minecraft:torch"
+    },
+    {
+      "item": "fab:stick_detector"
+    }
+  ],
+  "result": {
+    "id": "fab:brewing_stonecutter_table",
+    "count": 2
+  }
+}

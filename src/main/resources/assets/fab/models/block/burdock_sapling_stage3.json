@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "fab:block/burdock_sapling_stage3"
+  }
+}

@@ -20,6 +20,7 @@ import wta.AllInit;
 import wta.Fun;
 import wta.blocks.blockEntitiesModClasses.BrewingStonecutterTableEClass;
 import wta.blocks.blocksModClasses.*;
+import wta.blocks.blocksModClasses.burdock.BurdockSaplingBlockClass;
 import wta.blocks.blocksModClasses.pistonP.*;
 import wta.blocks.blocksModClasses.stick_detectors.BrewingStonecutterTableClass;
 import wta.blocks.blocksModClasses.stick_detectors.StickDetectorClass;
@@ -55,6 +56,7 @@ public class BlocksInit{
     public static Item pointedDripstoneTableI;
     public static Block stickDetector;
     public static Item stickDetectorI;
+    public static Block burdockSapling;
     public static Block brewingStonecutterTable;
     public static Item brewingStonecutterTableI;
     public static BlockEntityType<BrewingStonecutterTableEClass> brewingStonecutterTableBE;
@@ -352,6 +354,20 @@ public class BlocksInit{
                 )
         );
 
+        burdockSapling=Registry.register(
+                Registries.BLOCK,
+                Identifier.of(MODID, "burdock_sapling"),
+                new BurdockSaplingBlockClass(
+                        AbstractBlock.Settings.create()
+                                .mapColor(MapColor.DIRT_BROWN)
+                                .sounds(BlockSoundGroup.GRASS)
+                                .nonOpaque()
+                                .allowsSpawning(Blocks::never)
+                                .noCollision()
+                                .ticksRandomly()
+                )
+        );
+
         //other
         ArrayList<Item> inMI=new ArrayList<>(List.of(
                 usbbI,
@@ -374,7 +390,8 @@ public class BlocksInit{
         //Blocks && Items
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
                 usbb,
-                shSeeds
+                shSeeds,
+                burdockSapling
         );
 
         for (Block block : trapdoorDoors){

@@ -2,7 +2,6 @@ package wta.entities.projectiles;
 
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.Item;
@@ -11,10 +10,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import wta.AllInit;
 import wta.entities.FabEntityModelLayers;
-import wta.entities.mobs.MobsInit;
-import wta.entities.mobs.enderCubeP.EnderCubeEntity;
-import wta.entities.mobs.enderCubeP.EnderCubeEntityModel;
-import wta.entities.mobs.enderCubeP.EnderCubeEntityRenderer;
 import wta.entities.projectiles.burdock.BurdockEntity;
 import wta.entities.projectiles.burdock.BurdockEntityModel;
 import wta.entities.projectiles.burdock.BurdockEntityRenderer;

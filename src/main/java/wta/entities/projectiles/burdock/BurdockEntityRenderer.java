@@ -4,7 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
-import wta.entities.classes.CustomProjectileEntityRenderer;
+import wta.entities.other.CustomProjectileEntityRenderer;
 
 import static wta.Fab.MODID;
 
@@ -17,5 +17,10 @@ public class BurdockEntityRenderer extends CustomProjectileEntityRenderer<Burdoc
     @Override
     public Identifier getTexture(BurdockEntity entity) {
         return Identifier.of(MODID, "textures/entity/burdock/burdock.png");
+    }
+
+    @Override
+    protected float offsetY() {
+        return -1.25F;
     }
 }
