@@ -200,3 +200,19 @@ map
                 arrowEntity.setPitch((float)(Math.atan2((double)directionY, (double)f) * (double)(180F / (float)Math.PI)));
                 arrowEntity.prevYaw = arrowEntity.getYaw();
                 arrowEntity.prevPitch = arrowEntity.getPitch();/*/
+
+    @Inject(
+            method = "tick",
+            at = @At("RETURN")
+    )
+    public void testOnly(CallbackInfo ci){
+        System.out.println("Not Odnii@!");
+    }
+         = vec3d3.add(
+                vec3d.length()==0 ? new Vec3d(0, 0.5, 0) : vec3d
+        );
+
+    /*/@Override
+    public boolean isNoClip() {
+        return false;
+    }/*/

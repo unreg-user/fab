@@ -10,6 +10,7 @@ import wta.Fab;
 public class FabEntityModelLayers {
     public static final EntityModelLayer ENDER_CUBE=createMain("ender_cube");
     public static final EntityModelLayer BURDOCK=createMain("burdock");
+    public static final EntityModelLayer ITEM_ZOMBIE=createMain("item_zombie");
 
     private static EntityModelLayer create(Identifier id, String layer) {
         return new EntityModelLayer(id, layer);

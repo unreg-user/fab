@@ -18,6 +18,7 @@ public class TagsMod {
         public static TagKey<Block> pistonBlocksRotate=blockTagMod("piston_blocks_rotate");
         public static TagKey<Block> pistonBlocks=blockTagMod("piston_blocks");
         public static TagKey<Block> pistonBlocksForSet=blockTagMod("piston_blocks_for_set");
+        public static TagKey<Block> burdock_tree_blocks=blockTagMod("burdock_tree_blocks");
 
         public static TagKey<Block> blockTagMod(String id){
             return TagKey.of(RegistryKeys.BLOCK, Identifier.of(MODID, id));

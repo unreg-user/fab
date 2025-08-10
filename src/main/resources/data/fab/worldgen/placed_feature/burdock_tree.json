@@ -6,10 +6,7 @@
       "predicate": {
         "type": "minecraft:would_survive",
         "state": {
-          "Name": "fab:burdock_sapling",
-          "Properties": {
-            "age": "0"
-          }
+          "Name": "fab:burdock_sapling"
         }
       }
     }

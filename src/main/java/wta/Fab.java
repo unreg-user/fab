@@ -5,7 +5,9 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import wta.blocks.BlocksInit;
+import wta.effects.EffectsInit;
 import wta.entities.EntitiesInit;
+import wta.features.FeaturesInit;
 import wta.gui.GuiInit;
 import wta.items.ItemsInit;
 import wta.recipeTypes.RecipeInit;
@@ -38,6 +40,8 @@ public class Fab implements ModInitializer, ClientModInitializer {
 		AllInit.init();
 		RecipeInit.init();
 		GuiInit.init();
+		EffectsInit.init();
+		FeaturesInit.init();
 		LOGGER.info("Hello Fabric world! Odnii!");
 	}
 

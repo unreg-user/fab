@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "fab:block/burdock_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "fab:block/burdock_log"
+    },
+    "axis=z": {
+      "model": "fab:block/burdock_log",
+      "x": 90
+    }
+  }
+}

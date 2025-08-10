@@ -6,76 +6,19 @@
       "conditions": [
         {
           "condition": "minecraft:block_state_property",
-          "block": "fab:sh_seeds",
+          "block": "fab:burdock_sapling",
           "properties": {
-            "age": "1"
+            "age": "0"
           }
         }
       ],
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "fab:sh_seeds"
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "fab:sh_seeds",
-          "properties": {
-            "age": "2"
-          }
-        }
-      ],
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "fab:sh_seeds",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 2,
-                "max": 3
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "fab:sh_seeds",
-          "properties": {
-            "age": "2"
-          }
-        }
-      ],
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "fab:sh_wheat",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1,
-                "max": 2
-              }
-            }
-          ]
+          "name": "fab:burdock"
         }
       ]
     }
   ],
-  "functions": [],
-  "random_sequence": "minecraft:block/sh_seeds"
+  "random_sequence": "minecraft:block/burdock_sapling"
 }

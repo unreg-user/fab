@@ -40,6 +40,4 @@ replay_*.log
 *.jfr
 
 #my
-
-src/test
 src/main/generated

@@ -1,6 +1,7 @@
 package wta.blocks;
 
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -8,6 +9,7 @@ import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.BlockItem;
@@ -19,7 +21,10 @@ import net.minecraft.util.Identifier;
 import wta.AllInit;
 import wta.Fun;
 import wta.blocks.blockEntitiesModClasses.BrewingStonecutterTableEClass;
+import wta.blocks.blockEntitiesModClasses.BurdockSaplingBlockEClass;
 import wta.blocks.blocksModClasses.*;
+import wta.blocks.blocksModClasses.burdock.BurdockLeavesClass;
+import wta.blocks.blocksModClasses.burdock.BurdockLogClass;
 import wta.blocks.blocksModClasses.burdock.BurdockSaplingBlockClass;
 import wta.blocks.blocksModClasses.pistonP.*;
 import wta.blocks.blocksModClasses.stick_detectors.BrewingStonecutterTableClass;
@@ -57,8 +62,13 @@ public class BlocksInit{
     public static Block stickDetector;
     public static Item stickDetectorI;
     public static Block burdockSapling;
+    public static BlockEntityType<BurdockSaplingBlockEClass> burdockSaplingBE;
     public static Block brewingStonecutterTable;
     public static Item brewingStonecutterTableI;
+    public static Block burdockLog;
+    public static Item burdockLogI;
+    public static Block burdockLeaves;
+    public static Item burdockLeavesI;
     public static BlockEntityType<BrewingStonecutterTableEClass> brewingStonecutterTableBE;
 
     //Settings
@@ -367,6 +377,58 @@ public class BlocksInit{
                                 .ticksRandomly()
                 )
         );
+        burdockSaplingBE=Registry.register(
+                Registries.BLOCK_ENTITY_TYPE,
+                Identifier.of(MODID, "burdock_sapling"),
+                BlockEntityType.Builder.create(BurdockSaplingBlockEClass::new, burdockSapling).build()
+        );
+
+        burdockLog=Registry.register(
+                Registries.BLOCK,
+                Identifier.of(MODID, "burdock_log"),
+                new BurdockLogClass(
+                        AbstractBlock.Settings.create()
+                                .mapColor(MapColor.DULL_PINK)
+                                .instrument(NoteBlockInstrument.BASS)
+                                .sounds(BlockSoundGroup.NETHER_STEM)
+                                .strength(1.5F)
+                                .allowsSpawning(Blocks::never)
+                                .ticksRandomly()
+                )
+        );
+        burdockLogI=Registry.register(
+                Registries.ITEM,
+                Identifier.of(MODID, "burdock_log"),
+                new BlockItem(burdockLog,
+                        new Item.Settings()
+                )
+        );
+
+        burdockLeaves=Registry.register(
+                Registries.BLOCK,
+                Identifier.of(MODID, "burdock_leaves"),
+                new BurdockLeavesClass(
+                        AbstractBlock.Settings.create()
+                                .mapColor(MapColor.DARK_GREEN)
+                                .instrument(NoteBlockInstrument.BASS)
+                                .sounds(BlockSoundGroup.GRASS)
+                                .strength(0.2F)
+                                .ticksRandomly()
+                                .nonOpaque()
+                                .allowsSpawning(Blocks::canSpawnOnLeaves)
+                                .suffocates(Blocks::never) //нельзя задохнуться
+                                .pistonBehavior(PistonBehavior.BLOCK)
+                                .noCollision()
+                )
+        );
+        //Blocks.OAK_LEAVES
+        burdockLeavesI=Registry.register(
+                Registries.ITEM,
+                Identifier.of(MODID, "burdock_leaves"),
+                new BlockItem(burdockLeaves,
+                        new Item.Settings()
+                )
+        );
 
         //other
         ArrayList<Item> inMI=new ArrayList<>(List.of(
@@ -380,7 +442,9 @@ public class BlocksInit{
                 pistonKnotGetStrippedI,
                 pointedDripstoneTableI,
                 stickDetectorI,
-                brewingStonecutterTableI
+                brewingStonecutterTableI,
+                burdockLogI,
+                burdockLeavesI
         ));
         inMI.addAll(trapdoorDoorsI);
         AllInit.inMI.add(inMI.toArray(new Item[0]));
@@ -391,11 +455,24 @@ public class BlocksInit{
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
                 usbb,
                 shSeeds,
-                burdockSapling
+                burdockSapling,
+                burdockLeaves
         );
 
         for (Block block : trapdoorDoors){
             BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), block);
         }
+
+        //gray to color
+        int fallback_color=0x55DD55;
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
+            if (world == null || pos == null) return fallback_color;
+            return BiomeColors.getFoliageColor(world, pos);
+        },
+                burdockLeaves
+        );
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> fallback_color,
+                burdockLeaves
+        );
     }
 }

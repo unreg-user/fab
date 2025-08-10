@@ -7,22 +7,20 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.model.IronGolemEntityModel;
-import net.minecraft.client.render.entity.model.SlimeEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Objects;
 
 @Environment(EnvType.CLIENT)
 public abstract class StuckFeatureForEntities<T extends LivingEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M> {
+    private ArrayList<ModelPart> parts=collectAllModelParts(this.getContextModel());
+
     public StuckFeatureForEntities(LivingEntityRenderer<T, M> entityRenderer) {
         super(entityRenderer);
     }
@@ -70,7 +68,6 @@ public abstract class StuckFeatureForEntities<T extends LivingEntity, M extends 
         if (m > 0) {
             for(int n = 0; n < m; ++n) {
                 matrixStack.push();
-                ArrayList<ModelPart> parts = collectAllModelParts(this.getContextModel());
                 int sizePartsList=parts.size();
                 if (sizePartsList<1){
                     matrixStack.pop();

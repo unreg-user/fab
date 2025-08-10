@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "fab:block/burdock_log",
+    "end": "fab:block/burdock_log_top"
+  }
+}

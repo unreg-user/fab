@@ -3,4 +3,12 @@ accessWidener v2 named
 transitive-accessible field net/minecraft/item/AxeItem STRIPPED_BLOCKS Ljava/util/Map;
 transitive-accessible field net/minecraft/client/model/ModelPart children Ljava/util/Map;
 transitive-accessible field net/minecraft/client/model/ModelPart cuboids Ljava/util/List;
+transitive-accessible field net/minecraft/entity/projectile/PersistentProjectileEntity life I
+transitive-accessible field net/minecraft/entity/projectile/PersistentProjectileEntity inBlockState Lnet/minecraft/block/BlockState;
+transitive-accessible field net/minecraft/entity/projectile/ProjectileEntity lastDeflectedEntity Lnet/minecraft/entity/Entity;
+
 transitive-accessible method net/minecraft/registry/entry/RegistryEntry$Reference setRegistryKey (Lnet/minecraft/registry/RegistryKey;)V
+transitive-accessible method net/minecraft/entity/projectile/PersistentProjectileEntity shouldFall ()Z
+transitive-accessible method net/minecraft/entity/projectile/PersistentProjectileEntity fall ()V
+transitive-accessible method net/minecraft/entity/projectile/PersistentProjectileEntity setPierceLevel (B)V
+transitive-accessible method net/minecraft/entity/projectile/PersistentProjectileEntity clearPiercingStatus ()V

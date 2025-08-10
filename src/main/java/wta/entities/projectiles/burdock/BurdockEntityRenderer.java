@@ -16,7 +16,14 @@ public class BurdockEntityRenderer extends CustomProjectileEntityRenderer<Burdoc
 
     @Override
     public Identifier getTexture(BurdockEntity entity) {
-        return Identifier.of(MODID, "textures/entity/burdock/burdock.png");
+        int breakLevel=entity.getBreakGroupLevel();
+        return switch (breakLevel){
+            case 0 -> Identifier.of(MODID, "textures/entity/burdock/burdock.png");
+            case 1 -> Identifier.of(MODID, "textures/entity/burdock/burdock1.png");
+            case 2 -> Identifier.of(MODID, "textures/entity/burdock/burdock2.png");
+            case 10 -> Identifier.of(MODID, "textures/entity/burdock/burdock10.png");
+            default -> Identifier.of(MODID, "textures/entity/burdock/burdock3.png");
+        };
     }
 
     @Override

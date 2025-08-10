@@ -1,4 +1,4 @@
-package wta.entities.mobs.enderCubeP;
+package wta.entities.mobs.enderCube;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;

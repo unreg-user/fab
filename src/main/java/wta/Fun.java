@@ -329,6 +329,9 @@ public class Fun {
     public static Block getBlockById(String type, String name){
         return Registries.BLOCK.get(Identifier.of(type, name));
     }
+    public static Block getBlockById(Identifier id){
+        return Registries.BLOCK.get(id);
+    }
 
     @Nullable
     public static BlockState getStackState(ItemStack stack){
@@ -606,6 +609,26 @@ public class Fun {
         };
     }
 
+    public static ArrayList<BlockPos> intsToPos(int[][] ints){
+            ArrayList<BlockPos> ret=new ArrayList<>();
+            for (int[] posI : ints){
+                ret.add(new BlockPos(posI[0], posI[1], posI[2]));
+            }
+            return ret;
+    }
+
+    public static void offsetBlockPoses(ArrayList<BlockPos> poses, BlockPos offset){
+        int size=poses.size();
+        for (int i=0; i<size; i++) {
+            poses.set(i, poses.get(i).add(offset));
+        }
+    }
+    public static void offsetBlockPoses(BlockPos offset, ArrayList<BlockPos>... poseses){
+        for (ArrayList<BlockPos> posesI : poseses){
+            offsetBlockPoses(posesI, offset);
+        }
+    }
+
     public static void print(Object obj, Object... objs){
         System.out.println(obj);
         for (Object objI : objs){
@@ -711,6 +734,46 @@ public class Fun {
                 public void clear() {
 
                 }
+            };
+        }
+    }
+
+    /**
+     * axisToDirection.get(axis.ordinal());
+     */
+    public static final List<List<Direction>> axisToDirection=List.of(
+            List.of(
+                    Direction.EAST,
+                    Direction.WEST
+            ),
+            List.of(
+                    Direction.UP,
+                    Direction.DOWN
+            ),
+            List.of(
+                    Direction.SOUTH,
+                    Direction.NORTH
+            )
+    );
+
+    public static class BlockPosR extends  BlockPos{
+        public BlockPosR(BlockPos pos) {
+            super(pos.getX(), pos.getY(), pos.getZ());
+        }
+
+        public BlockPosR(int i, int j, int k) {
+            super(i, j, k);
+        }
+
+        public BlockPos horizontalRotate(int i){
+            int x = this.getX();
+            int y = this.getY();
+            int z = this.getZ();
+            return switch (i){
+                case 1 -> new BlockPos( z, y, -x);
+                case 2 -> new BlockPos(-x, y, -z);
+                case 3 -> new BlockPos(-z, y,  x);
+                default -> this;
             };
         }
     }

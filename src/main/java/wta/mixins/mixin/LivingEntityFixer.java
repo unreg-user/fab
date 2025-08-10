@@ -3,16 +3,20 @@ package wta.mixins.mixin;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageTracker;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import wta.effects.EffectsInit;
+import wta.entities.projectiles.burdock.BurdockEntity;
 import wta.mixins.mixinInterfaces.LivingEntityFixerInterface;
 
 @Mixin(LivingEntity.class)
@@ -42,6 +46,57 @@ public abstract class LivingEntityFixer extends Entity implements LivingEntityFi
     )
     public void writeNBT(NbtCompound nbt, CallbackInfo ci) {
         nbt.putInt("stuck_burdock_count", getStuckBurdockCount());
+    }
+
+    @Inject(
+            method = "tick",
+            at = @At("RETURN")
+    )
+    public void tick_(CallbackInfo ci){
+        int count=getStuckBurdockCount();
+        if (count>0 && random.nextInt(300)==0){
+            count--;
+            setStuckBurdockCount(count);
+            World world=this.getWorld();
+            BurdockEntity burdockEntity=BurdockEntity.createEntity(world, this);
+            burdockEntity.setCanPickup(false);
+            world.spawnEntity(burdockEntity);
+        }
+        if ((Object) this instanceof LivingEntity livingEntity){
+            StatusEffectInstance burdockEffect=livingEntity.getStatusEffect(EffectsInit.burdockinessEntry);
+            if (burdockEffect!=null){
+                int level=burdockEffect.getAmplifier();
+                if (random.nextInt(256)<=level){
+                    count++;
+                    setStuckBurdockCount(count);
+                }
+                float damage=0;
+                for (int i=0; i<count; i++) {
+                    if (random.nextInt(256)<=level) {
+                        damage += BurdockEntity.defaultDamage;
+                    }
+                }
+                if (damage>0){
+                    BurdockEntity.onlyDamageEntity(this.getWorld(), livingEntity, damage);
+                }
+            }
+        }
+    }
+
+    @Inject(
+            method = "onDeath",
+            at = @At("RETURN")
+    )
+    public void onDeath_(DamageSource damageSource, CallbackInfo ci) {
+        int count=getStuckBurdockCount();
+        for (int i=0; i<count; i++) {
+            BurdockEntity.summonRandomBurdock(
+                    this.getWorld(),
+                    this.getPos(),
+                    1D,
+                    random
+            );
+        }
     }
 
     @Override

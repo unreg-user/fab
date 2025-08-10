@@ -2,22 +2,31 @@ package wta.entities.projectiles.burdock;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ProjectileItem;
+import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Position;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import wta.blocks.BlocksInit;
 
-public class BurdockItemClass extends Item implements ProjectileItem {
+public class BurdockItemClass extends BlockItem implements ProjectileItem {
     public BurdockItemClass(Item.Settings settings) {
-        super(settings);
+        super(BlocksInit.burdockSapling, settings);
+    }
+
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        ActionResult result=super.useOnBlock(context);
+        if (result==ActionResult.FAIL){
+            return ActionResult.PASS;
+        }
+        return result;
     }
 
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
