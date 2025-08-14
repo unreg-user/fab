@@ -2,8 +2,6 @@
 
 .gradle/
 build/
-out/
-classes/
 
 # eclipse
 
@@ -40,4 +38,4 @@ replay_*.log
 *.jfr
 
 #my
-src/main/generated
+src/main/generated/

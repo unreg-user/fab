@@ -23,6 +23,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import org.jetbrains.annotations.NotNull;
@@ -784,6 +785,10 @@ public class Fun {
 
     private static <T> TagKey<T> tagMod(RegistryKey<Registry<T>> reg, String id){
         return TagKey.of(reg, Identifier.of(MODID, id));
+    }
+
+    public static double getRandom(Random random, double min, double max){
+        return random.nextDouble()*(max-min)+min;
     }
 
     public static final String MC="minecraft";

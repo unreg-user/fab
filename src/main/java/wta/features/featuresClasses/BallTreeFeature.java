@@ -31,6 +31,9 @@ public class BallTreeFeature extends Feature<BallTreeFeatureConfig> {
     }
 
     private boolean canGenerate(World world, BlockPos pos, int rotate){
+        if (!world.getBlockState(pos.down()).isIn(BlockTags.DIRT)){
+            return false;
+        }
         for (BlockPos i : logs){
             BlockPos posI=pos.add( new Fun.BlockPosR(i).horizontalRotate(rotate) );
             BlockState state=world.getBlockState(posI);

@@ -417,9 +417,23 @@ public class BurdockEntity extends PersistentProjectileEntity {
     public static void summonRandomBurdock(World world, Vec3d pos, double length, Random random){
         summonRandomBurdock(world, pos, length, random, 0.5D);
     }
+    public static void summonRandomBurdockR(World world, Vec3d pos, double length, Random random, double vecYR){
+        BurdockEntity burdockEntity=BurdockEntity.createEntity(world, pos);
+        Vec3d vec3d=getRandomVectorR(length, vecYR, random);
+        burdockEntity.setVelocity(vec3d);
+        world.spawnEntity(burdockEntity);
+    }
 
     public static Vec3d getRandomVector(double length, double yRandom, Random random){
         double vecYR=random.nextDouble()*yRandom*Math.PI;
+        double vecY=length*Math.sin(vecYR);
+        double lengthXZ=Math.cos(vecYR);
+        double vecXZR=random.nextDouble()*2D*Math.PI;
+        double vecX=lengthXZ*Math.cos(vecXZR);
+        double vecZ=lengthXZ*Math.sin(vecXZR);
+        return new Vec3d(vecX, vecY, vecZ);
+    }
+    public static Vec3d getRandomVectorR(double length, double vecYR, Random random){
         double vecY=length*Math.sin(vecYR);
         double lengthXZ=Math.cos(vecYR);
         double vecXZR=random.nextDouble()*2D*Math.PI;

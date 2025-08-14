@@ -6,6 +6,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
+import wta.Fun;
 import wta.entities.projectiles.burdock.BurdockEntity;
 
 public class BurdockLeavesClass extends LeavesBlock {
@@ -18,7 +19,7 @@ public class BurdockLeavesClass extends LeavesBlock {
         super.randomTick(state, world, pos, random);
 
         if (random.nextInt(100)==0){
-            BurdockEntity.summonRandomBurdock(world, new Vec3d(pos.getX(), pos.getY(), pos.getZ()), 1, Random.create(), 2);
+            BurdockEntity.summonRandomBurdockR(world, new Vec3d(pos.getX(), pos.getY(), pos.getZ()), 1, random, -Fun.getRandom(random, 0.1, 0.9)*Math.PI);
         }
     }
 

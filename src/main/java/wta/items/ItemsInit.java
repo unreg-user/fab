@@ -14,15 +14,17 @@ public class ItemsInit {
     public static Item shWheatI;
     public static Item shBreadI;
     public static Item bowDripstoneI;
-    public static Item vnStickI;
+    public static Item undefinedItem;
 
     public static Item[] inMI;
     public static void init(){
+        //Items
         shWheatI=Registry.register(
                 Registries.ITEM,
                 Identifier.of(MODID, "sh_wheat"),
                 new Item(new Item.Settings())
         );
+
         shBreadI=Registry.register(
                 Registries.ITEM,
                 Identifier.of(MODID, "sh_bread"),
@@ -33,6 +35,7 @@ public class ItemsInit {
                                 .build()
                 ))
         );
+
         bowDripstoneI=Registry.register(
                 Registries.ITEM,
                 Identifier.of(MODID, "bow_dripstone"),
@@ -40,6 +43,14 @@ public class ItemsInit {
                         .maxDamage(384)
                 )
         );
+
+        undefinedItem=Registry.register(
+                Registries.ITEM,
+                Identifier.of(MODID, "undefined_item"),
+                new Item(new Item.Settings())
+        );
+
+        //other
         inMI=new Item[]{
                 shWheatI,
                 shBreadI,

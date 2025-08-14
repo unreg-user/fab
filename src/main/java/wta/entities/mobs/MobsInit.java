@@ -14,6 +14,7 @@ import wta.entities.mobs.enderCube.EnderCubeEntityModel;
 import wta.entities.mobs.enderCube.EnderCubeEntityRenderer;
 import wta.entities.mobs.itemZombie.ItemZombieEntity;
 import wta.entities.mobs.itemZombie.ItemZombieEntityModel;
+import wta.entities.mobs.itemZombie.ItemZombieEntityRenderer;
 
 import static wta.Fab.MODID;
 
@@ -33,11 +34,11 @@ public class MobsInit {
         FabricDefaultAttributeRegistry
                 .register(enderCubeE, EnderCubeEntity.createAttributes());
 
-        /*/itemZombieE=Registry.register(
+        itemZombieE=Registry.register(
                 Registries.ENTITY_TYPE,
                 Identifier.of(MODID, "item_zombie"),
                 EntityType.Builder
-                        .create(ItemZombieEntity::new, SpawnGroup.MONSTER)
+                        .create(ItemZombieEntity::newForRegistry, SpawnGroup.MONSTER)
                         .dimensions(0.6f, 1.95f)
                         .eyeHeight(1.74f)
                         .passengerAttachments(2.0125f)
@@ -46,14 +47,14 @@ public class MobsInit {
                         .build("item_zombie")
         );
         FabricDefaultAttributeRegistry
-                .register(itemZombieE, EnderCubeEntity.createAttributes());/*/
+                .register(itemZombieE, ItemZombieEntity.createAttributes());
     }
 
     public static void clientInit() {
         EntityModelLayerRegistry.registerModelLayer(FabEntityModelLayers.ENDER_CUBE, EnderCubeEntityModel::getTexturedModelData);
-        EntityRendererRegistry.register(enderCubeE, context -> new EnderCubeEntityRenderer(context, new EnderCubeEntityModel(context.getPart(FabEntityModelLayers.ENDER_CUBE)), 0.5f));
+        EntityRendererRegistry.register(enderCubeE, context -> new EnderCubeEntityRenderer(context, new EnderCubeEntityModel(context.getPart(FabEntityModelLayers.ENDER_CUBE)), 0.5F));
 
-        //EntityModelLayerRegistry.registerModelLayer(FabEntityModelLayers.ITEM_ZOMBIE, ItemZombieEntityModel::);
-        //EntityRendererRegistry.register(enderCubeE, context -> new EnderCubeEntityRenderer(context, new EnderCubeEntityModel(context.getPart(FabEntityModelLayers.ENDER_CUBE)), 0.5f));
+        EntityModelLayerRegistry.registerModelLayer(FabEntityModelLayers.ITEM_ZOMBIE, ItemZombieEntityModel::getTexturedModelData);
+        EntityRendererRegistry.register(itemZombieE, context -> new ItemZombieEntityRenderer(context, new ItemZombieEntityModel(context.getPart(FabEntityModelLayers.ITEM_ZOMBIE)), 0.5F));
     }
 }
