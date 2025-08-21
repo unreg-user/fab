@@ -10,6 +10,7 @@ public class ItemZombieEntityRenderer extends BipedEntityRenderer<ItemZombieEnti
     public ItemZombieEntityRenderer(EntityRendererFactory.Context ctx, ItemZombieEntityModel model, float shadowRadius) {
         super(ctx, model, shadowRadius);
         this.addFeature(new HeadItemFeatureRenderer(this));
+        this.addFeature(new ThrowFeatureRender(this));
     }
 
     @Override

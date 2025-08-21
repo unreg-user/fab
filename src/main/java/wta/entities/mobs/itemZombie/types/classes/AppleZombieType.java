@@ -1,20 +1,22 @@
 package wta.entities.mobs.itemZombie.types.classes;
 
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import wta.entities.goals.MeleeAttackWithConfigurableCooldownGoal;
 import wta.entities.mobs.itemZombie.ItemZombieEntity;
 import wta.entities.mobs.itemZombie.types.ItemZombieType;
 ;
 
 public class AppleZombieType extends ItemZombieType {
-    private final float modifierAttack;
     private final float modifierMovement;
 
-    public AppleZombieType(float attack, float movement){
-        modifierAttack=attack;
-        modifierMovement=movement;
+    public AppleZombieType(float movement){
+        modifierMovement=movement-1F;
     }
 
     @Override
@@ -23,7 +25,7 @@ public class AppleZombieType extends ItemZombieType {
         if (attack_speed != null) {
             attack_speed.addTemporaryModifier(new EntityAttributeModifier(
                     modifiersName,
-                    modifierAttack,
+                    19,
                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
             ));
         }
@@ -47,5 +49,15 @@ public class AppleZombieType extends ItemZombieType {
         if (movement_speed != null) {
             movement_speed.removeModifier(modifiersName);
         }
+    }
+
+    @Override
+    public void initGoals(ItemZombieEntity entity, GoalSelector goalSelector, GoalSelector targetSelector) {
+        goalSelector.add(0, new SwimGoal(entity));
+        goalSelector.add(1, new MeleeAttackWithConfigurableCooldownGoal(entity, 1, true, 0));
+        goalSelector.add(2, new WanderAroundFarGoal(entity, 1));
+        goalSelector.add(3, new LookAroundGoal(entity));
+        goalSelector.add(3, new LookAtEntityGoal(entity, LivingEntity.class, 32));
+        targetSelector.add(0, new ActiveTargetGoal<>(entity, PlayerEntity.class, true));
     }
 }

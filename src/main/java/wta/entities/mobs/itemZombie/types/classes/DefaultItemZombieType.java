@@ -12,7 +12,7 @@ public class DefaultItemZombieType extends ItemZombieType {
     public void initGoals(ItemZombieEntity entity, GoalSelector goalSelector, GoalSelector targetSelector) {
         goalSelector.add(0, new SwimGoal(entity));
         goalSelector.add(1, new MeleeAttackGoal(entity, 1, true));
-        goalSelector.add(2, new FindItemsForHeadGoal(entity, 16, 0, ie -> true/*ie.getStack().getItem()*/));
+        goalSelector.add(2, new FindItemsForHeadGoal(entity, 16, 0, ie -> ItemZombieEntity.types.isUndefault(ie.getStack().getItem())));
         goalSelector.add(3, new WanderAroundFarGoal(entity, 1));
         goalSelector.add(4, new LookAroundGoal(entity));
         goalSelector.add(4, new LookAtEntityGoal(entity, LivingEntity.class, 32));

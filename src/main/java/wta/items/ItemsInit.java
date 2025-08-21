@@ -54,7 +54,8 @@ public class ItemsInit {
         inMI=new Item[]{
                 shWheatI,
                 shBreadI,
-                bowDripstoneI
+                bowDripstoneI,
+                undefinedItem
         };
 
 

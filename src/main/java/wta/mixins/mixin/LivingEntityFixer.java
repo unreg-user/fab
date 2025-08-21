@@ -11,6 +11,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,6 +22,8 @@ import wta.mixins.mixinInterfaces.LivingEntityFixerInterface;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityFixer extends Entity implements LivingEntityFixerInterface {
+    @Shadow public abstract void baseTick();
+
     @Unique
     private static final TrackedData<Integer> STUCK_BURDOCK_COUNT=DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
@@ -53,6 +56,39 @@ public abstract class LivingEntityFixer extends Entity implements LivingEntityFi
             at = @At("RETURN")
     )
     public void tick_(CallbackInfo ci){
+        if (hasBurdockDownTick()){
+            burdockDownTick();
+        }
+        if (hasBurdockEffectTick()){
+            burdockEffectTick();
+        }
+    }
+
+    @Override
+    public void burdockDownTick() {
+        int count=getStuckBurdockCount();
+        LivingEntity livingEntity=(LivingEntity) (Object) this;
+        StatusEffectInstance burdockEffect=livingEntity.getStatusEffect(EffectsInit.burdockinessEntry);
+        if (burdockEffect!=null){
+            int level=burdockEffect.getAmplifier();
+            if (random.nextInt(256)<=level){
+                count++;
+                setStuckBurdockCount(count);
+            }
+            float damage=0;
+            for (int i=0; i<count; i++) {
+                if (random.nextInt(256)<=level) {
+                    damage += BurdockEntity.defaultDamage;
+                }
+            }
+            if (damage>0){
+                BurdockEntity.onlyDamageEntity(this.getWorld(), livingEntity, damage);
+            }
+        }
+    }
+
+    @Override
+    public void burdockEffectTick() {
         int count=getStuckBurdockCount();
         if (count>0 && random.nextInt(300)==0){
             count--;
@@ -61,25 +97,6 @@ public abstract class LivingEntityFixer extends Entity implements LivingEntityFi
             BurdockEntity burdockEntity=BurdockEntity.createEntity(world, this);
             burdockEntity.setCanPickup(false);
             world.spawnEntity(burdockEntity);
-        }
-        if ((Object) this instanceof LivingEntity livingEntity){
-            StatusEffectInstance burdockEffect=livingEntity.getStatusEffect(EffectsInit.burdockinessEntry);
-            if (burdockEffect!=null){
-                int level=burdockEffect.getAmplifier();
-                if (random.nextInt(256)<=level){
-                    count++;
-                    setStuckBurdockCount(count);
-                }
-                float damage=0;
-                for (int i=0; i<count; i++) {
-                    if (random.nextInt(256)<=level) {
-                        damage += BurdockEntity.defaultDamage;
-                    }
-                }
-                if (damage>0){
-                    BurdockEntity.onlyDamageEntity(this.getWorld(), livingEntity, damage);
-                }
-            }
         }
     }
 
@@ -110,7 +127,7 @@ public abstract class LivingEntityFixer extends Entity implements LivingEntityFi
     }
 
     //костыли
-    public LivingEntityFixer(EntityType<?> type, World world) {
+    private LivingEntityFixer(EntityType<?> type, World world) {
         super(type, world);
     }
 }

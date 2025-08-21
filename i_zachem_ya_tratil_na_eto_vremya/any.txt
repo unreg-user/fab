@@ -1,0 +1,8 @@
+
+            float an_progress2=0F;
+            if (an_progress>=0.5F && an_progress<=1F){
+                an_progress2=(an_progress-0.5F);
+            }else if (an_progress<=1.5F){
+                an_progress2=(1.5F-an_progress);
+            }
+            rightArm.yaw = (float) (-(an_progress2)*Math.PI);

@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.predicate.entity.EntitySubPredicateTypes;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -48,6 +49,7 @@ public class MobsInit {
         );
         FabricDefaultAttributeRegistry
                 .register(itemZombieE, ItemZombieEntity.createAttributes());
+        SpawnEggsInit.init();
     }
 
     public static void clientInit() {

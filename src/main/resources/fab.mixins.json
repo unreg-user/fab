@@ -6,7 +6,8 @@
 		"ReplaceItems",
 		"Unregistry",
 		"EntityRendererFixer",
-		"LivingEntityFixer"
+		"LivingEntityFixer",
+		"PlayerEntityFixer"
 	],
 	"injectors": {
 		"defaultRequire": 1

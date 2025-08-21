@@ -14,6 +14,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
 import wta.entities.mobs.itemZombie.ItemZombieEntity;
 
@@ -55,6 +56,14 @@ public class ItemZombieType {
         }
     }
 
+    public void throwRender(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ItemZombieEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch){
+
+    }
+
+    public void onThrowStop(ItemZombieEntity entity){
+
+    }
+
     public @Nullable SoundEvent getAmbientSound(ItemZombieEntity entity) {
         return null;
     }
@@ -67,6 +76,10 @@ public class ItemZombieType {
         return SoundEvents.ENTITY_HOSTILE_DEATH;
     }
 
+    public boolean hasBurdockEffectTick(ItemZombieEntity entity){
+        return true;
+    }
+
     public boolean fireUnderSun(ItemZombieEntity entity){
         return true;
     }
@@ -74,4 +87,36 @@ public class ItemZombieType {
     public void onStop(ItemZombieEntity entity, ItemStack stack){}
 
     public void onStart(ItemZombieEntity entity){}
+
+    public void onAttacking(ItemZombieEntity entity, LivingEntity target){}
+
+    //functions
+
+    protected static void biRender(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ItemZombieEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch){
+        ItemStack stack=entity.getHeadItem();
+        Random random=Random.create(entity.getUuid().getLeastSignificantBits());
+        if (!stack.isEmpty()) {
+            matrices.push();
+            matrices.translate(0.0D, -0.25D, 0.0D);
+            if (random.nextBoolean()){
+                matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180));
+                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180));
+            }
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(headYaw));
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(headPitch));
+            float scale=0.7f;
+            matrices.scale(scale, scale, scale);
+            MinecraftClient.getInstance().getItemRenderer().renderItem(
+                    stack,
+                    ModelTransformationMode.NONE,
+                    light,
+                    OverlayTexture.DEFAULT_UV,
+                    matrices,
+                    vertexConsumers,
+                    entity.getWorld(),
+                    0
+            );
+            matrices.pop();
+        }
+    }
 }

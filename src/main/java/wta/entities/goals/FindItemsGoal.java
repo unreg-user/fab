@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -24,6 +25,7 @@ public abstract class FindItemsGoal extends Goal {
         this.range=range;
         this.rangeToItem=rangeToItem;
         this.predicate=predicate;
+        this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
     }
 
     @Override
@@ -45,7 +47,7 @@ public abstract class FindItemsGoal extends Goal {
         if (target != null) {
             entity.getLookControl().lookAt(target, 30.0F, 30.0F);
             entity.getNavigation().startMovingTo(target, 1);
-            if (entity.distanceTo(target) < 1.5F){
+            if (entity.distanceTo(target) < 2F){
                 this.onFinish();
             }
         }
@@ -69,5 +71,10 @@ public abstract class FindItemsGoal extends Goal {
     @Override
     public void stop() {
         target=null;
+    }
+
+    @Override
+    public boolean canStop() {
+        return !canNext();
     }
 }

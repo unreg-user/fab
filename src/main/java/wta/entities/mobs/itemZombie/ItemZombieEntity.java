@@ -1,8 +1,6 @@
 package wta.entities.mobs.itemZombie;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -16,24 +14,34 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import wta.entities.mobs.MobsInit;
 import wta.entities.mobs.itemZombie.types.ItemZombieType;
 import wta.entities.mobs.itemZombie.types.ItemZombieTypeRegistry;
-import wta.entities.mobs.itemZombie.types.classes.AppleZombieType;
+import wta.entities.mobs.itemZombie.types.classes.*;
+import wta.entities.projectiles.ProjectilesInit;
 import wta.items.ItemsInit;
+import wta.mixins.mixinInterfaces.LivingEntityFixerInterface;
 
-public class ItemZombieEntity extends HostileEntity {
-    public static final ItemZombieTypeRegistry types=new ItemZombieTypeRegistry();
+public class ItemZombieEntity extends HostileEntity implements LivingEntityFixerInterface{
+    public static ItemZombieTypeRegistry types;
     private static final TrackedData<ItemStack> HEAD_ITEM=DataTracker.registerData(ItemZombieEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
     private static final TrackedData<Float> SET_HEAD_ITEM_ANIMATION_PROGRESS=DataTracker.registerData(ItemZombieEntity.class, TrackedDataHandlerRegistry.FLOAT);
-    public static final float step_animation=0.1F;
+    private static final TrackedData<Float> THROW_PROGRESS=DataTracker.registerData(ItemZombieEntity.class, TrackedDataHandlerRegistry.FLOAT);
+    private static final TrackedData<Boolean> HAS_ULTA=DataTracker.registerData(ItemZombieEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    public static final float step_set_head_animation=0.2F;
+    public static final float step_throw=0.075F;
 
     public ItemZombieType itemType=ItemZombieTypeRegistry.defaultType;
 
     public ItemZombieEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
+        if (types==null){
+            loadTypes();
+        }
+        setHeadItem(getHeadItem());
     }
 
     public ItemZombieEntity(World world){
@@ -52,6 +60,9 @@ public class ItemZombieEntity extends HostileEntity {
     }
 
     public static ItemZombieEntity newForRegistry(EntityType<? extends HostileEntity> entityType, World world){
+        if (types==null){
+            loadTypes();
+        }
         return new ItemZombieEntity(entityType, world);
     }
 
@@ -59,8 +70,10 @@ public class ItemZombieEntity extends HostileEntity {
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
 
-        builder.add(HEAD_ITEM, getDefaultItemStack());
-        builder.add(SET_HEAD_ITEM_ANIMATION_PROGRESS, -1F);
+        builder .add(HEAD_ITEM, getDefaultItemStack())
+                .add(SET_HEAD_ITEM_ANIMATION_PROGRESS, -1F)
+                .add(HAS_ULTA, true)
+                .add(THROW_PROGRESS, -1F);
     }
 
     public float get_set_head_animation_progress(){
@@ -69,6 +82,22 @@ public class ItemZombieEntity extends HostileEntity {
 
     public void set_set_head_animation_progress(float value){
         dataTracker.set(SET_HEAD_ITEM_ANIMATION_PROGRESS, value);
+    }
+
+    public boolean get_has_ulta(){
+        return  dataTracker.get(HAS_ULTA);
+    }
+
+    public void set_has_ulta(boolean value){
+        dataTracker.set(HAS_ULTA, value);
+    }
+
+    public float get_throw_progress(){
+        return dataTracker.get(THROW_PROGRESS);
+    }
+
+    public void set_throw_progress(float value){
+        dataTracker.set(THROW_PROGRESS, value);
     }
 
     public ItemStack getHeadItem() {
@@ -83,9 +112,10 @@ public class ItemZombieEntity extends HostileEntity {
         initHeadItem(stack);
     }
 
-    public void setHeadItemDrop(ItemStack stack) {
+    public void setHeadItemDrop(ItemStack stack, Vec3d motion) {
         World world=this.getWorld();
-        ItemEntity itemEntity=this.getDropedItemEntity(getHeadItem(), world);
+        ItemEntity itemEntity=this.getDropedItemEntityAtHead(getHeadItem(), world);
+        itemEntity.setVelocity(motion);
         world.spawnEntity(itemEntity);
         this.setHeadItem(stack);
     }
@@ -122,6 +152,11 @@ public class ItemZombieEntity extends HostileEntity {
     }
 
     @Override
+    public boolean hasBurdockEffectTick() {
+        return itemType.hasBurdockEffectTick(this);
+    }
+
+    @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
 
@@ -153,11 +188,16 @@ public class ItemZombieEntity extends HostileEntity {
 
         float progress=this.get_set_head_animation_progress();
         if (progress > -0.5F){
-            progress += step_animation;
-            if (progress > 1F && progress < 1.2F){
+            progress += step_set_head_animation;
+            if (progress > 1F){
                 ItemStack handStack=this.getEquippedStack(EquipmentSlot.MAINHAND);
                 if (handStack != null && !handStack.isEmpty()){
-                    this.setHeadItemDrop(handStack);
+                    float rad=(float) ((bodyYaw/180F-0.5F)*Math.PI);
+                    this.setHeadItemDrop(handStack, new Vec3d(
+                            3*Math.cos(rad),
+                            0,
+                            3*Math.sin(rad)
+                    ));
                     this.setStackInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
                 }
             }
@@ -165,6 +205,17 @@ public class ItemZombieEntity extends HostileEntity {
                 progress = -1F;
             }
             this.set_set_head_animation_progress(progress);
+        }
+        progress=this.get_throw_progress();
+        if (progress > -0.5F){
+            progress += step_throw;
+            if (progress > 0.6F){
+                itemType.onThrowStop(this);
+                progress = -1F;
+            }
+            this.set_throw_progress(progress);
+        }else{
+            this.set_throw_progress(0F);
         }
     }
 
@@ -209,11 +260,32 @@ public class ItemZombieEntity extends HostileEntity {
         return false;
     }
 
+    @Override
+    public void onAttacking(Entity target) {
+        super.onAttacking(target);
+
+        if (target instanceof LivingEntity livingEntity){
+            itemType.onAttacking(this, livingEntity);
+        }
+    }
+
+    //functions
+
     private ItemEntity getDropedItemEntity(ItemStack stack, World world){
         return new ItemEntity(world, this.getX(), this.getY(), this.getZ(), stack);
     }
+    private ItemEntity getDropedItemEntityAtHead(ItemStack stack, World world){
+        return new ItemEntity(world, this.getX(), this.getEyeY(), this.getZ(), stack);
+    }
 
-    static {
-        types.register(Items.APPLE, new AppleZombieType(5F, 1.1F));
+    //loaders
+
+    public static void loadTypes() {
+        types=new ItemZombieTypeRegistry();
+        types.register(Items.APPLE, new AppleZombieType(2));
+        types.register(Items.GOLDEN_APPLE, new GoldenAppleZombieType(2, 3));
+        types.register(Items.ENCHANTED_GOLDEN_APPLE, new EnchantedGoldenAppleZombieType(2, 3));
+        types.register(Items.STICK, new StickZombieType());
+        types.register(ProjectilesInit.burdockI, new BurdockZombieType());
     }
 }

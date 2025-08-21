@@ -57,6 +57,9 @@ public class BurdockEntity extends PersistentProjectileEntity {
         super(entityType, world);
     }
 
+    public static BurdockEntity createEntity(World world){
+        return new BurdockEntity(ProjectilesInit.burdockE, world);
+    }
     public static BurdockEntity createEntity(World world, Vec3d pos, Vec3d motion){
         BurdockEntity burdock=new BurdockEntity(ProjectilesInit.burdockE, world);
         burdock.setPosition(pos);
@@ -91,7 +94,9 @@ public class BurdockEntity extends PersistentProjectileEntity {
 
     @Override
     protected boolean canHit(Entity entity) {
-        return (age>min_tick_to_physis || getBreakGroupLevel()==0) && (getOwner()!=entity || age>10) && getCanPickup();
+        return (age>min_tick_to_physis || getBreakGroupLevel()==0) &&
+                (getOwner()!=entity || (age>10 && getCanPickup())) &&
+                !((entity instanceof PlayerEntity player) && player.isSpectator());
     }
 
     @Override
