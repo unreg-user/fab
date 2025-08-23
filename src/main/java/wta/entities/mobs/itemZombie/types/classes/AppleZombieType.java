@@ -52,12 +52,12 @@ public class AppleZombieType extends ItemZombieType {
     }
 
     @Override
-    public void initGoals(ItemZombieEntity entity, GoalSelector goalSelector, GoalSelector targetSelector) {
+    public void initGoals(ItemZombieEntity entity, GoalSelector goalSelector) {
         goalSelector.add(0, new SwimGoal(entity));
         goalSelector.add(1, new MeleeAttackWithConfigurableCooldownGoal(entity, 1, true, 0));
-        goalSelector.add(2, new WanderAroundFarGoal(entity, 1));
-        goalSelector.add(3, new LookAroundGoal(entity));
-        goalSelector.add(3, new LookAtEntityGoal(entity, LivingEntity.class, 32));
-        targetSelector.add(0, new ActiveTargetGoal<>(entity, PlayerEntity.class, true));
+        goalSelector.add(2, new EscapeSunlightGoal(entity, 1));
+        goalSelector.add(3, new WanderAroundFarGoal(entity, 1));
+        goalSelector.add(4, new LookAroundGoal(entity));
+        goalSelector.add(4, new LookAtEntityGoal(entity, LivingEntity.class, 32));
     }
 }

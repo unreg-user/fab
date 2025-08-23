@@ -6,3 +6,27 @@
                 an_progress2=(1.5F-an_progress);
             }
             rightArm.yaw = (float) (-(an_progress2)*Math.PI);
+
+
+    /*/public void register(Item item, ItemZombieType type, boolean isUndefault, float priority){
+        types.put(item, type);
+        if (isUndefault) undefaultList.add(item);
+        priorityList.put(item, priority);
+    }
+    public void register(TagKey<Item> tag, ItemZombieType type, boolean isDefault, float priority){
+        for (RegistryEntry<Item> i : Registries.ITEM.getOrCreateEntryList(tag)){
+            Item item=i.value();
+            register(item, type, isDefault, priority);
+        }
+    }/*/
+    /*//**
+    * чем первее, тем приорететней
+    *
+    public void createPriority(List<List2T> all){
+        int size=all.size();
+        for (int i=0; i<size; i++) {
+            for (Item item : all.get(i).list){
+                priorityMap.put(item, i);
+            }
+        }
+    }/*/

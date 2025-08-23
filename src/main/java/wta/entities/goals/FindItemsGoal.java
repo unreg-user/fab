@@ -30,16 +30,20 @@ public abstract class FindItemsGoal extends Goal {
 
     @Override
     public boolean canStart() {
+        findTarget();
+        return canNext();
+    }
+
+    protected void findTarget(){
         World world=entity.getWorld();
         List<Entity> targets=world.getOtherEntities(
-                entity,
-                entity.getBoundingBox().expand(range),
-                e  -> e instanceof ItemEntity itemEntity && predicate.test(itemEntity)
+              entity,
+              entity.getBoundingBox().expand(range),
+              e  -> e instanceof ItemEntity itemEntity && predicate.test(itemEntity) && entity.canSee(e) && entity.getNavigation().findPathTo(e, rangeToItem)!=null
         );
         this.target=(ItemEntity) targets.stream()
-                .min(Comparator.comparing(entity::distanceTo))
-                .orElse(null);
-        return canNext();
+              .min(Comparator.comparing(entity::distanceTo))
+              .orElse(null);
     }
 
     @Override
@@ -60,8 +64,8 @@ public abstract class FindItemsGoal extends Goal {
         return canNext();
     }
 
-    private boolean canNext(){
-        if (target!=null && target.isAlive() && entity.getNavigation().findPathTo(target, rangeToItem)!=null){
+    protected boolean canNext(){
+        if (target!=null && target.isAlive() && entity.canSee(target) && entity.getNavigation().findPathTo(target, rangeToItem)!=null){
             return true;
         }
         target=null;
@@ -74,7 +78,7 @@ public abstract class FindItemsGoal extends Goal {
     }
 
     @Override
-    public boolean canStop() {
-        return !canNext();
+    public boolean shouldRunEveryTick() {
+        return true;
     }
 }

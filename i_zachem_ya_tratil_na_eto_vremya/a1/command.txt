@@ -1,1 +1,0 @@
-/summon fab:burdock ~ ~-2 ~ {"break_group_level":10, "can_collision":true, "this_collection":4, "this_damage":0.1}
