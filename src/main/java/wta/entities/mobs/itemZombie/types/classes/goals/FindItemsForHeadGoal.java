@@ -5,7 +5,6 @@ import it.unimi.dsi.fastutil.floats.FloatArrayList;
 import it.unimi.dsi.fastutil.floats.FloatList;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,10 +15,9 @@ import wta.entities.mobs.itemZombie.ItemZombieEntity;
 import wta.entities.mobs.itemZombie.types.HierarchyB;
 import wta.entities.mobs.itemZombie.types.ItemZombieTypeRegistry;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -53,67 +51,13 @@ public class FindItemsForHeadGoal extends FindItemsGoal {
 
     @Override
     protected void findTarget() {
-        target=null;
-        World world=entity.getWorld();
-        List<Entity> targets=world.getOtherEntities(
-              entity,
-              entity.getBoundingBox().expand(range),
-              e  -> e instanceof ItemEntity itemEntity
-                    && entity.canSee(e)
-                    && entity.getNavigation().findPathTo(e, rangeToItem)!=null
+        ItemZombieEntity itemZombie=(ItemZombieEntity) entity;
+        target=itemZombie.findItem(
+              ItemEntity.class,
+              e -> true,
+              range,
+              rangeToItem,
+              priorityHierarchies
         );
-        if (targets.isEmpty()){
-            return;
-        }
-
-        List<ArrayList<ItemEntity>> stackPriorities=Stream.generate(() -> new ArrayList<ItemEntity>())
-              .limit(hierarchies.size())
-              .collect(Collectors.toList());
-        for (Entity i : targets){
-            ItemEntity entityI=(ItemEntity) i;
-            ItemStack stack=entityI.getStack();
-            int hierarchy=registryTypes.getHierarchyPos(stack.getItem());
-            if (hierarchy != -1){
-                stackPriorities.get(hierarchy).add(entityI);
-            }
-        }
-
-        ArrayList<ItemEntity> stackPriority=null;
-        HierarchyB.Hierarchy pos=null;
-        for (int i : priorityHierarchies){
-            ArrayList<ItemEntity> hierarchyI=stackPriorities.get(i);
-            if (!hierarchyI.isEmpty()){
-                stackPriority=hierarchyI;
-                pos=hierarchies.get(i);
-            }
-        }
-        if (stackPriority==null){
-            return;
-        }
-        int sizePriority = stackPriority.size();
-        if (sizePriority==1){
-            target=stackPriority.get(0);
-            return;
-        }
-
-        ArrayList<ItemEntity> stackPriority2=null;
-        IntArrayList priorities=new IntArrayList();
-        for (int i=0; i < sizePriority; i++) {
-            Item itemI = stackPriority.get(i).getStack().getItem();
-            priorities.add(pos.get(itemI));
-        }
-        int max=priorities.stream().min(Comparator.naturalOrder()).get();
-        int[] maxValues=IntStream.range(0, priorities.size())
-              .filter(i -> priorities.get(i)==max)
-              .toArray();
-        ArrayList<ItemEntity> stackPriorityFinal=stackPriority;
-        stackPriority2=new ArrayList<>(Arrays.asList(Arrays.stream(maxValues)
-              .mapToObj(i -> stackPriorityFinal.get(i))
-              .toArray(ItemEntity[]::new)));
-        if (stackPriority2.size()==1){
-            target=stackPriority2.get(0);
-            return;
-        }
-        target=stackPriority2.get(0);
     }
 }

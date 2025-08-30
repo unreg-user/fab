@@ -374,7 +374,7 @@ public class Fun {
 
     public static void testP(@Nullable Integer number){
         if (number!=null){
-            System.out.println("Odnii!@"+number.toString());
+            System.out.println("Odnii!@"+number);
         }else{
             System.out.println("Odnii!@");
         }

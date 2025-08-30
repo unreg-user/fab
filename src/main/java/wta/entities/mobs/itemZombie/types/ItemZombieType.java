@@ -8,8 +8,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.SkeletonEntity;
-import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -100,7 +100,11 @@ public class ItemZombieType {
 
     public void onStart(ItemZombieEntity entity){}
 
-    public void onAttacking(ItemZombieEntity entity, LivingEntity target){}
+    public void onAttacking(ItemZombieEntity entity, LivingEntity target){
+        if (entity.getHeadItem().hasEnchantments()){
+            enchantAttackEffects(entity, target);
+        }
+    }
 
     //functions
 
@@ -129,6 +133,57 @@ public class ItemZombieType {
                     0
             );
             matrices.pop();
+        }
+    }
+
+    protected static void fourRender(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ItemZombieEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch){
+        ItemStack stack=entity.getHeadItem();
+        long uuid=entity.getUuid().getLeastSignificantBits();
+        if (!stack.isEmpty()) {
+            matrices.push();
+            matrices.translate(0.0D, -0.25D, 0.0D);
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(headPitch));
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180+headYaw));
+            matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(90 * (uuid%4)));
+            float scale=0.7f;
+            matrices.scale(scale, scale, scale);
+            MinecraftClient.getInstance().getItemRenderer().renderItem(
+                  stack,
+                  ModelTransformationMode.NONE,
+                  light,
+                  OverlayTexture.DEFAULT_UV,
+                  matrices,
+                  vertexConsumers,
+                  entity.getWorld(),
+                  0
+            );
+            matrices.pop();
+        }
+    }
+
+    protected static void enchantAttackEffects(ItemZombieEntity entity, LivingEntity target){
+        Random random=entity.getRandom();
+
+        StatusEffectInstance instance=new StatusEffectInstance(
+              StatusEffects.DARKNESS,
+              200,
+              10
+        );
+        StatusEffectInstance instance2=new StatusEffectInstance(
+              StatusEffects.WEAKNESS,
+              100,
+              10
+        );
+        target.addStatusEffect(instance);
+        target.addStatusEffect(instance2);
+
+        if (random.nextInt(5)==0){
+            StatusEffectInstance instanceR1=new StatusEffectInstance(
+                  StatusEffects.NAUSEA,
+                  100,
+                  5
+            );
+            target.addStatusEffect(instanceR1);
         }
     }
 }

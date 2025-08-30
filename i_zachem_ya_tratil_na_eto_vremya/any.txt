@@ -30,3 +30,118 @@
             }
         }
     }/*/
+
+
+        /*/List<ArrayList<ItemEntity>> stackPriorities=Stream.generate(() -> new ArrayList<ItemEntity>())
+              .limit(hierarchies.size())
+              .collect(Collectors.toList());
+        for (Entity i : targets){
+            ItemEntity entityI=(ItemEntity) i;
+            ItemStack stack=entityI.getStack();
+            int hierarchy=registryTypes.getHierarchyPos(stack.getItem());
+            if (hierarchy != -1){
+                stackPriorities.get(hierarchy).add(entityI);
+            }
+        }
+
+        ArrayList<ItemEntity> stackPriority=null;
+        HierarchyB.Hierarchy pos=null;
+        for (int i : priorityHierarchies){
+            ArrayList<ItemEntity> hierarchyI=stackPriorities.get(i);
+            if (!hierarchyI.isEmpty()){
+                stackPriority=hierarchyI;
+                pos=hierarchies.get(i);
+            }
+        }
+        if (stackPriority==null){
+            return;
+        }
+        int sizePriority = stackPriority.size();
+        if (sizePriority==1){
+            target=stackPriority.get(0);
+            return;
+        }
+
+        ArrayList<ItemEntity> stackPriority2=null;
+        IntArrayList priorities=new IntArrayList();
+        for (int i=0; i < sizePriority; i++) {
+            Item itemI = stackPriority.get(i).getStack().getItem();
+            priorities.add(pos.get(itemI));
+        }
+        int max=priorities.stream().min(Comparator.naturalOrder()).get();
+        int[] maxValues=IntStream.range(0, priorities.size())
+              .filter(i -> priorities.get(i)==max)
+              .toArray();
+        ArrayList<ItemEntity> stackPriorityFinal=stackPriority;
+        stackPriority2=new ArrayList<>(Arrays.asList(Arrays.stream(maxValues)
+              .mapToObj(i -> stackPriorityFinal.get(i))
+              .toArray(ItemEntity[]::new)));
+        if (stackPriority2.size()==1){
+            target=stackPriority2.get(0);
+            return;
+        }
+        target=stackPriority2.get(0);/*/
+        Random uuidRandom=Random.create(entity.getUuid().getLeastSignificantBits());
+               priorityHierarchies=new FloatArrayList(Stream.generate(uuidRandom::nextFloat).limit(hierarchies.size()).collect(Collectors.toList()));
+               /*/Override
+                   protected void findTarget() {
+                       target=null;
+                       World world=entity.getWorld();
+                       List<ItemEntity> targets=world.getOtherEntities(
+                             entity,
+                             entity.getBoundingBox().expand(range),
+                             e  -> e instanceof ItemEntity
+                                   && entity.canSee(e)
+                                   && entity.getNavigation().findPathTo(e, rangeToItem)!=null
+                       ).stream().map(e -> (ItemEntity) e).toList();
+                       if (targets.isEmpty()){
+                           return;
+                       }
+
+                       targets=targets
+                             .stream().filter( itemEntity -> {
+                                 int hierarchy = registryTypes.getHierarchyPos(itemEntity.getStack().getItem());
+                                 return hierarchy != -1;
+                             })
+                             .toList();
+
+                       int upPriority=priorityHierarchies.indexOf(targets.stream().mapToInt(ie -> {
+                           Item item = ie.getStack().getItem();
+                           int hPos = registryTypes.getHierarchyPos(item);
+                           return priorityHierarchies.getInt(hPos);
+                       }).max().orElse(-1));
+                       HierarchyB.Hierarchy upHierarchy=hierarchies.get(upPriority);
+
+                       targets=targets
+                             .stream().filter( ie -> {
+                                 Item item = ie.getStack().getItem();
+                                 int hPos = registryTypes.getHierarchyPos(item);
+                                 return hPos == upPriority;
+                             })
+                             .sorted((ie1, ie2) -> {
+                                 Item item1 = ie1.getStack().getItem();
+                                 Item item2 = ie2.getStack().getItem();
+
+                                 int compare=Integer.compare(
+                                       upHierarchy.get(item1),
+                                       upHierarchy.get(item2)
+                                 );
+                                 if (compare!=0) return compare;
+
+                                 compare=Integer.compare(
+                                       ie1.getStack().getCount(),
+                                       ie2.getStack().getCount()
+                                 );
+                                 if (compare!=0) return compare;
+
+                                 compare=Double.compare(
+                                       entity.getPos().subtract(ie1.getPos()).length(),
+                                       entity.getPos().subtract(ie2.getPos()).length()
+                                 );
+                                 return compare;
+                             }).toList();
+
+                       if (!targets.isEmpty()){
+                           target=targets.getFirst();
+                       }
+                   }/*/

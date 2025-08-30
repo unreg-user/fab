@@ -10,17 +10,15 @@ public class ThrowGoal extends Goal {
 	private final ItemZombieEntity entity;
 	private LivingEntity target;
 	private final int attackIntervalTicks;
+	private final int backwardRange;
 	private int cooldown=0;
 	private boolean movingToLeft=true;
 
-	public ThrowGoal(ItemZombieEntity entity, int attackIntervalTicks){
+	public ThrowGoal(ItemZombieEntity entity, int attackIntervalTicks, int backwardRange){
 		this.entity=entity;
 		this.attackIntervalTicks=attackIntervalTicks;
+		this.backwardRange=backwardRange;
 		this.setControls(EnumSet.of(Control.LOOK, Control.MOVE));
-	}
-
-	public ThrowGoal(ItemZombieEntity entity){
-		this(entity, 5);
 	}
 
 	@Override
@@ -36,7 +34,7 @@ public class ThrowGoal extends Goal {
 	@Override
 	public void tick() {
 		entity.getLookControl().lookAt(target, 30.0F, 30.0F);
-		boolean backward=target.getPos().subtract(entity.getPos()).length()<24;
+		boolean backward=target.getPos().subtract(entity.getPos()).length()<backwardRange;
 		entity.getMoveControl().strafeTo(backward ? -1F : 0.75F, movingToLeft ? -1F : 1F);
 		if (entity.get_throw_progress() > -0.5F){
 			return;
@@ -61,6 +59,6 @@ public class ThrowGoal extends Goal {
 
 	private boolean has_target(){
 		target=entity.getTarget();
-		return target!=null;
+		return target!=null && entity.canSee(target);
 	}
 }

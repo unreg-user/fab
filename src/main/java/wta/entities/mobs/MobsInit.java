@@ -1,14 +1,19 @@
 package wta.entities.mobs;
 
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.predicate.entity.EntitySubPredicateTypes;
+import net.minecraft.entity.SpawnLocationTypes;
+import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.Heightmap;
 import wta.entities.FabEntityModelLayers;
 import wta.entities.mobs.enderCube.EnderCubeEntity;
 import wta.entities.mobs.enderCube.EnderCubeEntityModel;
@@ -17,11 +22,15 @@ import wta.entities.mobs.itemZombie.ItemZombieEntity;
 import wta.entities.mobs.itemZombie.ItemZombieEntityModel;
 import wta.entities.mobs.itemZombie.ItemZombieEntityRenderer;
 
+import java.util.function.Predicate;
+
 import static wta.Fab.MODID;
 
 public class MobsInit {
     public static EntityType<EnderCubeEntity> enderCubeE;
     public static EntityType<ItemZombieEntity> itemZombieE;
+
+    private static Predicate<BiomeSelectionContext> monsterPredicate=BiomeSelectors.spawnsOneOf(EntityType.ZOMBIE);
 
     public static void init(){
         enderCubeE=Registry.register(
@@ -49,6 +58,21 @@ public class MobsInit {
         );
         FabricDefaultAttributeRegistry
                 .register(itemZombieE, ItemZombieEntity.createAttributes());
+        BiomeModifications.addSpawn(
+              monsterPredicate,
+              SpawnGroup.MONSTER,
+              itemZombieE,
+              50, // вес спавна (95 у ванильного зомбу)
+              4,  // минимальное количество в группе
+              4   // максимальное количество в группе
+        );
+        SpawnRestriction.register(
+              itemZombieE,
+              SpawnLocationTypes.ON_GROUND,
+              Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+              ItemZombieEntity::canSpawnInDarkAndNoWater
+        );
+
         SpawnEggsInit.init();
     }
 
@@ -59,4 +83,11 @@ public class MobsInit {
         EntityModelLayerRegistry.registerModelLayer(FabEntityModelLayers.ITEM_ZOMBIE, ItemZombieEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(itemZombieE, context -> new ItemZombieEntityRenderer(context, new ItemZombieEntityModel(context.getPart(FabEntityModelLayers.ITEM_ZOMBIE)), 0.5F));
     }
+    /*/
+        полезные источники:
+        монстры addSpawn:
+        DefaultBiomeFeatures.addBatsAndMonsters();
+        остальные addSpawn:
+        Overworld(TheNether, TheEnd)BiomeCreator
+    /*/
 }

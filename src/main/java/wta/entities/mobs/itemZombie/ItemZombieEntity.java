@@ -1,5 +1,7 @@
 package wta.entities.mobs.itemZombie;
 
+import it.unimi.dsi.fastutil.ints.IntList;
+import net.minecraft.block.FluidBlock;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -14,9 +16,13 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.*;
+import net.minecraft.world.dimension.DimensionType;
 import org.jetbrains.annotations.Nullable;
+import wta.blocks.BlocksInit;
 import wta.entities.mobs.MobsInit;
 import wta.entities.mobs.itemZombie.types.HierarchyB;
 import wta.entities.mobs.itemZombie.types.ItemZombieType;
@@ -27,10 +33,9 @@ import wta.items.ItemsInit;
 import wta.mixins.mixinInterfaces.LivingEntityFixerInterface;
 
 import java.util.List;
+import java.util.function.Predicate;
 
-import static wta.Fab.MODID;
-
-public class ItemZombieEntity extends HostileEntity implements LivingEntityFixerInterface{
+public class ItemZombieEntity extends HostileEntity implements LivingEntityFixerInterface, AtHeadItemEntity{
     public static ItemZombieTypeRegistry types;
     private static final TrackedData<ItemStack> HEAD_ITEM=DataTracker.registerData(ItemZombieEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
     private static final TrackedData<Float> SET_HEAD_ITEM_ANIMATION_PROGRESS=DataTracker.registerData(ItemZombieEntity.class, TrackedDataHandlerRegistry.FLOAT);
@@ -48,6 +53,11 @@ public class ItemZombieEntity extends HostileEntity implements LivingEntityFixer
             loadTypes();
         }
         setHeadItem(getHeadItem());
+    }
+
+    @Override
+    public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
+        return super.initialize(world, difficulty, spawnReason, entityData);
     }
 
     public ItemZombieEntity(World world){
@@ -144,6 +154,11 @@ public class ItemZombieEntity extends HostileEntity implements LivingEntityFixer
         itemType.onStart(this);
     }
 
+    @Override
+    public ItemStack getStack() {
+        return getHeadItem();
+    }
+
     public ItemZombieType getItemType(){
         return types.get(getHeadItem().getItem());
     }
@@ -177,7 +192,7 @@ public class ItemZombieEntity extends HostileEntity implements LivingEntityFixer
         super.writeCustomDataToNbt(nbt);
 
         ItemStack head_item=getHeadItem();
-        if (head_item!=null && head_item.isStackable()){
+        if (head_item!=null){
             nbt.put("head_item", head_item.encode(this.getRegistryManager()));
         }else{
             nbt.put("head_item", (new ItemStack(Items.AIR)).encodeAllowEmpty(this.getRegistryManager()));
@@ -203,7 +218,7 @@ public class ItemZombieEntity extends HostileEntity implements LivingEntityFixer
     @Override
     public void tick() {
         super.tick();
-        //if (getWorld().isClient) return;
+        if (getWorld().isClient) return;
         float progress=this.get_set_head_animation_progress();
         if (progress > -0.5F){
             progress += step_set_head_animation;
@@ -261,7 +276,7 @@ public class ItemZombieEntity extends HostileEntity implements LivingEntityFixer
         }
     }
 
-    public boolean pickupForHead(ItemEntity itemEntity){
+    public void pickupForHead(ItemEntity itemEntity){
         ItemStack stack=itemEntity.getStack();
         if (stack!=null && this.get_set_head_animation_progress() < -0.5F){
             itemEntity.discard();
@@ -271,9 +286,7 @@ public class ItemZombieEntity extends HostileEntity implements LivingEntityFixer
             world.spawnEntity(oldItemEntity);
             this.setStackInHand(Hand.MAIN_HAND, stack);
             this.set_set_head_animation_progress(0F);
-            return true;
         }
-        return false;
     }
 
     @Override
@@ -294,6 +307,69 @@ public class ItemZombieEntity extends HostileEntity implements LivingEntityFixer
         return new ItemEntity(world, this.getX(), this.getEyeY(), this.getZ(), stack);
     }
 
+    @SuppressWarnings("unchecked")
+    public <T extends Entity, Y extends Entity & AtHeadItemEntity> Y findItem(Class<T> clazz, Predicate<T> predicate, double range, int rangeToItem, IntList priorityHierarchies){
+        World world=this.getWorld();
+        List<Y> targets=world.getOtherEntities(
+              this,
+              this.getBoundingBox().expand(range),
+              e -> e.getClass() == clazz
+                    && this.canSee(e)
+                    && this.getNavigation().findPathTo(e, rangeToItem)!=null
+        ).stream().map(e -> (Y) e).toList();
+        if (targets.isEmpty()){
+            return null;
+        }
+
+        targets=targets
+              .stream().filter( ie -> {
+                  int hierarchy = types.getHierarchyPos(ie.getStack().getItem());
+                  return hierarchy != -1;
+              })
+              .toList();
+
+        int upPriority=priorityHierarchies.indexOf(targets.stream().mapToInt(ie -> {
+            Item item = ie.getStack().getItem();
+            int hPos = types.getHierarchyPos(item);
+            return priorityHierarchies.getInt(hPos);
+        }).max().orElse(-1));
+        if (upPriority==-1){
+            return null;
+        }
+        HierarchyB.Hierarchy upHierarchy=types.getPriorityList().get(upPriority);
+
+        targets=targets
+              .stream().filter( ie -> {
+                  Item item = ie.getStack().getItem();
+                  int hPos = types.getHierarchyPos(item);
+                  return hPos == upPriority;
+              })
+              .sorted((ie1, ie2) -> {
+                  Item item1 = ie1.getStack().getItem();
+                  Item item2 = ie2.getStack().getItem();
+                  int compare=Integer.compare(
+                        upHierarchy.get(item1),
+                        upHierarchy.get(item2)
+                  );
+                  if (compare!=0) return compare;
+                  compare=Integer.compare(
+                        ie1.getStack().getCount(),
+                        ie2.getStack().getCount()
+                  );
+                  if (compare!=0) return compare;
+                  compare=Double.compare(
+                        this.getPos().subtract(ie1.getPos()).length(),
+                        this.getPos().subtract(ie2.getPos()).length()
+                  );
+                  return compare;
+              }).toList();
+
+        if (!targets.isEmpty()){
+            return targets.getFirst();
+        }
+        return null;
+    }
+
     //loaders
 
     public static void loadTypes() {
@@ -302,15 +378,61 @@ public class ItemZombieEntity extends HostileEntity implements LivingEntityFixer
         types.register(Items.APPLE, new AppleZombieType(2), true);
         types.register(Items.GOLDEN_APPLE, new GoldenAppleZombieType(2, 3), true);
         types.register(Items.ENCHANTED_GOLDEN_APPLE, new EnchantedGoldenAppleZombieType(2, 3), true);
+
         types.register(Items.STICK, new StickZombieType(), true);
-        types.register(ProjectilesInit.burdockI, new BurdockZombieType(), true);
+
+        types.register(ProjectilesInit.burdockI, new BurdockZombieType(5), true);
+        types.register(BlocksInit.burdockLeavesI, new BurdockTreeZombieType(10), true);
+        types.register(BlocksInit.burdockLogI, new BurdockTreeZombieType(10), true);
+
+        types.register(Items.CROSSBOW, new BowZombieType(1), true);
+        types.register(Items.BOW, new BowZombieType(1), true);
+        types.register(Items.FLETCHING_TABLE, new ArrowZombieType(10), true);
+        types.register(Items.SPECTRAL_ARROW, new SpectralArrowZombieType(15), true);
+        types.register(Items.ARROW, new ArrowZombieType(15), true);
+
 
         types.createPriority(
               HierarchyB.create()
                     .a(Items.ENCHANTED_GOLDEN_APPLE)
                     .an(Items.GOLDEN_APPLE)
                     .an(Items.APPLE)
+                    .build(),
+              HierarchyB.create()
+                    .a(ProjectilesInit.burdockI)
+                    .an(BlocksInit.burdockLeavesI)
+                    .a(BlocksInit.burdockLogI)
+                    .build(),
+              HierarchyB.create()
+                    .a(Items.BOW)
+                    .a(Items.CROSSBOW)
+                    .an(Items.FLETCHING_TABLE)
+                    .an(Items.SPECTRAL_ARROW)
+                    .an(Items.ARROW)
                     .build()
         );
+    }
+
+    //static methods
+
+    public static boolean isSpawnDarkAndNoWater(ServerWorldAccess world, BlockPos pos, Random random) {
+        if (world.getLightLevel(LightType.SKY, pos) > random.nextInt(32) || world.getBlockState(pos).getBlock() instanceof FluidBlock) {
+            return false;
+        } else {
+            DimensionType dimensionType = world.getDimension();
+            int i = dimensionType.monsterSpawnBlockLightLimit();
+            if (i < 15 && world.getLightLevel(LightType.BLOCK, pos) > i) {
+                return false;
+            } else {
+                int j = world.toServerWorld().isThundering() ? world.getLightLevel(pos, 10) : world.getLightLevel(pos);
+                return j <= dimensionType.monsterSpawnLightTest().get(random);
+            }
+        }
+    }
+
+    public static boolean canSpawnInDarkAndNoWater(EntityType<? extends HostileEntity> type, ServerWorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
+        return world.getDifficulty() != Difficulty.PEACEFUL
+              && (SpawnReason.isTrialSpawner(spawnReason) || isSpawnDarkAndNoWater(world, pos, random))
+              && canMobSpawn(type, world, spawnReason, pos, random);
     }
 }

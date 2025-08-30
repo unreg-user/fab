@@ -120,16 +120,15 @@ public class BurdockEntity extends PersistentProjectileEntity {
                     burdockEntity.setThisDamage(thisDamage);
                     world.spawnEntity(burdockEntity);
                 }
-                onlyDamageEntity(this.getWorld(), livingEntity, thisDamage*breakLevel_);
+                onlyDamageEntity(this.getWorld(), livingEntity, (LivingEntity) this.getOwner(), thisDamage*breakLevel_);
                 entityEffect(livingEntity, random, 0, breakLevel_, 50*(4+random.nextInt(breakLevel_)));
             }else if (entity instanceof PlayerEntity player && random.nextInt(5) == 0 && this.getVelocity().length()>0.2) {
                 if (player.getInventory().insertStack(this.asItemStack())) {
                     player.sendPickup(this, 1);
                 }
             }else{
-                damageEntity(this.getWorld(), livingEntity, thisDamage, random);
+                damageEntity(this.getWorld(), livingEntity, (LivingEntity) this.getOwner(), thisDamage);
             }
-            livingEntity.setAttacker((LivingEntity) this.getOwner());
             this.discard();
         }
     }
@@ -358,9 +357,6 @@ public class BurdockEntity extends PersistentProjectileEntity {
         builder.add(thisCollection, defaultCollection);
     }
 
-    public static void onlyDamageEntity(World world, LivingEntity entity){
-        onlyDamageEntity(world, entity, defaultDamage);
-    }
     public static void onlyDamageEntity(World world, LivingEntity entity, float damage){
         DamageSource damageSource = new DamageSource(
                 world.getRegistryManager()
@@ -369,13 +365,19 @@ public class BurdockEntity extends PersistentProjectileEntity {
         );
         entity.damage(damageSource, damage);
     }
+    public static void onlyDamageEntity(World world, LivingEntity entity, LivingEntity owner, float damage){
+        DamageSource damageSource = new DamageSource(
+              world.getRegistryManager()
+                    .getWrapperOrThrow(RegistryKeys.DAMAGE_TYPE)
+                    .getOrThrow(DamageTypesMod.burdock),
+              owner
+        );
+        entity.damage(damageSource, damage);
+    }
 
     public static void damageEntityEffect(World world, LivingEntity entity, float damage, Random random, int min, int max){
         damageEntity(world, entity, damage, random);
         entityEffect(entity, random, 0, 4, 200);
-    }
-    public static void damageEntityEffect(World world, LivingEntity entity, Random random, int min, int max){
-        BurdockEntity.damageEntityEffect(world, entity, defaultDamage, random, min, max);
     }
     public static void damageEntityEffect(World world, LivingEntity entity, Random random){
         BurdockEntity.damageEntityEffect(world, entity, defaultDamage, random, 0, 4);
@@ -391,6 +393,18 @@ public class BurdockEntity extends PersistentProjectileEntity {
         }
     }
 
+    public static void damageEntity(World world, LivingEntity entity, LivingEntity owner, float damage){
+        if (entity instanceof LivingEntityFixerInterface entityFixed) {
+            entityFixed.setStuckBurdockCount(entityFixed.getStuckBurdockCount()+1);
+            DamageSource damageSource = new DamageSource(
+                  world.getRegistryManager()
+                        .getWrapperOrThrow(RegistryKeys.DAMAGE_TYPE)
+                        .getOrThrow(DamageTypesMod.burdock),
+                  owner
+            );
+            entity.damage(damageSource, damage);
+        }
+    }
     public static void damageEntity(World world, LivingEntity entity, float damage, Random random){
         if (entity instanceof LivingEntityFixerInterface entityFixed) {
             entityFixed.setStuckBurdockCount(entityFixed.getStuckBurdockCount()+1);
